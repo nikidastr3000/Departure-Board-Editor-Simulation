@@ -338,4 +338,5 @@ void output_time(const TimeType *time, FILE *dest) {
     fprintf(dest, "%d", time->minute);
 }
 
+
 ////////////////////functions for 1 Sprite////////////////////

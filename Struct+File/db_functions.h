@@ -31,6 +31,14 @@ void output_direction(const DirectionEnum *direction, FILE *dest);
 void output_status(const SlotStatus *status, FILE *dest);
 void output_time(const TimeType *time, FILE *dest);
 
+//binary
+Sprite **input_sprites_binary(const char *filename);
+void input_sprite_binary(Sprite *sprite, FILE *source);
+
+void output_sprites_binary(Sprite **sprites, FILE *dest);
+void output_sprite_binary(const Sprite *sprite, FILE *dest);
+
+
 
 ////////////////////functions for 1 Sprite////////////////////
 void display_sprite(Sprite *sprite);
@@ -38,6 +46,8 @@ void display_details(DetailsType *details, TypeOfSprite type);
 void display_text(Sprite *sprite);
 void display_line(Sprite *sprite);
 void display_slot(Sprite *sprite);
+
+
 
 
 void set_actual_departure_time(Sprite *sprite, TimeType depTime);
@@ -51,7 +61,9 @@ bool check_details(DetailsType *details, TypeOfSprite type);
 
 ////////////////////functions for more than one Sprite////////////////////
 
-bool check_screen(Sprite *sprites, ScreenBuffer *screen);
+bool check_for_mistakes(Sprite *sprites, ScreenBuffer *screen);
+
+
 
 Sprite *find_sprites_by_model(Sprite *sprites, Sprite model);
 void block_sprite_fields(Sprite *sprite);
