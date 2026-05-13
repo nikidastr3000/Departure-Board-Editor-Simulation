@@ -339,4 +339,29 @@ void output_time(const TimeType *time, FILE *dest) {
 }
 
 
+//binary
+Sprite **input_sprites_binary(const char *file_name) {
+    printf("Inputting Sprites from %s\n(binary)", file_name);
+
+    FILE *fp;
+    if ((fp = fopen(file_name, "rb+")) == NULL) {       // attempt to open the file
+        fprintf(stderr, "Could not open %s\n", file_name);
+        exit(1);
+    }
+
+    fseek(fp, 0, SEEK_END);
+    const long file_size = ftell(fp);
+    const long arr_size = file_size / (long)sizeof(Sprite);
+    rewind(fp);
+
+    Sprite **sprites = malloc(sizeof(Sprite *) * arr_size);
+    fread(sprites, sizeof(Sprite *), arr_size, fp);
+
+    fclose(fp);
+    puts("Input successfully ended!\n");
+
+    return sprites;
+}
+
+
 ////////////////////functions for 1 Sprite////////////////////

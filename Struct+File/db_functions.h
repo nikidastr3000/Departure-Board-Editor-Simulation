@@ -32,8 +32,8 @@ void output_status(const SlotStatus *status, FILE *dest);
 void output_time(const TimeType *time, FILE *dest);
 
 //binary
-Sprite **input_sprites_binary(const char *filename);
-void input_sprite_binary(Sprite *sprite, FILE *source);
+Sprite **input_sprites_binary(const char *file_name);
+//void input_sprite_binary(Sprite *sprite, FILE *source);
 
 void output_sprites_binary(Sprite **sprites, FILE *dest);
 void output_sprite_binary(const Sprite *sprite, FILE *dest);
