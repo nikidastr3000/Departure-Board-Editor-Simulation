@@ -1,14 +1,13 @@
-//db - departure board
+//
+// Created by niki on 5/13/26.
+//
 
-#include "db_functions.h"
-#include "db_structures.h"      //for clarity(is already included in db_functions.h)
+#include "input_output.h"
 #include "help_functions.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-////////////////////info input/output functions////////////////////
 
 void input_sprite(Sprite *sprite) {
     puts("Inputting Sprite");
@@ -264,6 +263,8 @@ void output_sprites(Sprite **sprites, FILE *dest) {
 }
 
 void output_sprite(const Sprite *sprite, FILE *dest) {
+    fseek(dest, 0, SEEK_END);
+
     fprintf(dest, "Sprite_name: %s\n", sprite->name);
     fprintf(dest, "X_coord: %d\n", sprite->x);
     fprintf(dest, "Y_coord: %d\n", sprite->y);
@@ -341,7 +342,7 @@ void output_time(const TimeType *time, FILE *dest) {
 
 //binary
 Sprite **input_sprites_binary(const char *file_name) {
-    printf("Inputting Sprites from %s\n(binary)", file_name);
+    printf("(binary)Inputting Sprites from %s\n", file_name);
 
     FILE *fp;
     if ((fp = fopen(file_name, "rb+")) == NULL) {       // attempt to open the file
@@ -351,11 +352,25 @@ Sprite **input_sprites_binary(const char *file_name) {
 
     fseek(fp, 0, SEEK_END);
     const long file_size = ftell(fp);
+
+    if (file_size % sizeof(Sprite) != 0) {
+        fprintf(stderr, "File size is not a multiple of Sprite size!\n");
+        exit(1);
+    }
+
     const long arr_size = file_size / (long)sizeof(Sprite);
     rewind(fp);
 
-    Sprite **sprites = malloc(sizeof(Sprite *) * arr_size);
-    fread(sprites, sizeof(Sprite *), arr_size, fp);
+
+    Sprite temp_sprites[arr_size];
+    fread(temp_sprites, sizeof(Sprite), arr_size, fp);
+
+    Sprite **sprites = malloc(sizeof(Sprite *) * (arr_size + 1));
+    for (int i = 0; i < arr_size; i++) {
+        sprites[i] = malloc(sizeof(Sprite));
+        *sprites[i] = temp_sprites[i];
+    }
+    sprites[arr_size] = NULL;
 
     fclose(fp);
     puts("Input successfully ended!\n");
@@ -363,5 +378,13 @@ Sprite **input_sprites_binary(const char *file_name) {
     return sprites;
 }
 
+void output_sprites_binary(Sprite **sprites, FILE *dest) {
+    for (int i = 0; sprites[i] != NULL; i++) {
+        output_sprite_binary(sprites[i], dest);
+    }
+}
+void output_sprite_binary(const Sprite *sprite, FILE *dest) {
+    fseek(dest, 0, SEEK_END);
+    fwrite(sprite, sizeof(Sprite), 1, dest);
+}
 
-////////////////////functions for 1 Sprite////////////////////

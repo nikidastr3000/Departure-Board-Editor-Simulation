@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "db_structures.h"
-#include "db_functions.h"
+#include "departure_board_editor.h"
 
 
 int main(void) {
@@ -19,9 +18,21 @@ int main(void) {
         screen.buffer[i][screen_width] = '\0';
     }
 
-    char filename[MAX_STRING_SIZE] = "sprites.txt";
-    Sprite **sprites = input_sprites_from_file(filename);
+    char binary[MAX_STRING_SIZE] = "sprites_binary.txt";
+    char text[MAX_STRING_SIZE] = "sprites.txt";
+
+    Sprite **sprites = input_sprites_from_file(text);
     output_sprites(sprites, stdout);
 
+    FILE *fp = fopen(binary, "wb");
+    output_sprites_binary(sprites, fp);
+    fclose(fp);
 
+    Sprite **sprites_bin = input_sprites_binary(binary);
+
+    output_sprites(sprites_bin, stdout);
+
+    delete_sprites_array(sprites);
+    delete_sprites_array(sprites_bin);
+    return 0;
 }

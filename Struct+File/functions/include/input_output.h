@@ -1,14 +1,14 @@
-//db - departure board
+//
+// Created by niki on 5/13/26.
+//
 
-
-#ifndef STRUCT_FILE_DB_FUNCTIONS_H
-#define STRUCT_FILE_DB_FUNCTIONS_H
+#ifndef STRUCT_FILE_INPUT_OUTPUT_H
+#define STRUCT_FILE_INPUT_OUTPUT_H
 
 #include <stdio.h>
 
 #include "db_structures.h"
 
-////////////////////info input/output functions////////////////////
 void input_sprite(Sprite *sprite);
 void input_details(DetailsType *details, TypeOfSprite type);
 void input_time(TimeType *time);
@@ -38,43 +38,4 @@ Sprite **input_sprites_binary(const char *file_name);
 void output_sprites_binary(Sprite **sprites, FILE *dest);
 void output_sprite_binary(const Sprite *sprite, FILE *dest);
 
-
-
-////////////////////functions for 1 Sprite////////////////////
-void display_sprite(Sprite *sprite);
-void display_details(DetailsType *details, TypeOfSprite type);
-void display_text(Sprite *sprite);
-void display_line(Sprite *sprite);
-void display_slot(Sprite *sprite);
-
-
-
-
-void set_actual_departure_time(Sprite *sprite, TimeType depTime);
-//void bus_arrived(SpriteType *sprite, TimeType time);
-
-int measure_sprite_length(Sprite *sprite);
-
-bool check_sprite(Sprite *sprite);
-bool check_details(DetailsType *details, TypeOfSprite type);
-
-
-////////////////////functions for more than one Sprite////////////////////
-
-bool check_for_mistakes(Sprite *sprites, ScreenBuffer *screen);
-
-
-
-Sprite *find_sprites_by_model(Sprite *sprites, Sprite model);
-void block_sprite_fields(Sprite *sprite);
-bool cmp_sprite_with_model(Sprite *sprite, Sprite model);
-
-Sprite *find_sprites_by_coords_diapason(Sprite *sprites, int x1, int y1, int x2, int y2);
-
-bool check_collision(Sprite *sprite1, Sprite *sprite2);
-
-
-
-
-
-#endif //STRUCT_FILE_DB_FUNCTIONS_H
+#endif //STRUCT_FILE_INPUT_OUTPUT_H
