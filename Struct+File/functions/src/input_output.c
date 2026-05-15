@@ -89,22 +89,14 @@ void input_details(DetailsType *details, const TypeOfSprite type) {
 }
 void input_time(TimeType *time) {
     char str_time[6];                   //6th char for '\0'
-    scanf(" %s", str_time);
+    if (scanf(" %5s", str_time) != 1) {
+        puts("Invalid input format!");
+        exit(1);
+    }
     clear_stdin();
 
-    time->hour = atoi(str_time);
-    if (time->hour > 23) {
-        puts("Invalid time!");
-        exit(1);
-    }
-
-    int colon_pos = strcspn(str_time, ":");
-    if (colon_pos == -1) {
-        puts("Invalid time!");
-        exit(1);
-    }
-    time->minute = atoi(str_time + (colon_pos + 1));
-    if (time->minute > 59) {
+    if (sscanf(str_time, "%d:%d", &time->hours, &time->minutes) != 2 || 
+        time->hours > 23 || time->minutes > 59) {
         puts("Invalid time!");
         exit(1);
     }
@@ -140,7 +132,12 @@ Sprite **input_sprites_from_file(const char *filename) {
 
         if (array_size >= array_capacity) {
             array_capacity *= 2;
-            sprites = realloc(sprites, array_capacity * sizeof(Sprite *));
+            Sprite **temp = realloc(sprites, array_capacity * sizeof(Sprite *));
+            if (!temp) {
+                perror("Failed to reallocate sprites");
+                exit(1);
+            }
+            sprites = temp;
         }
 
         sprites[array_size] = malloc(sizeof(Sprite));
@@ -235,21 +232,13 @@ void input_status_from_file(SlotStatus *status, FILE *source) {
 }
 void input_time_from_file(TimeType *time, FILE *source) {
     char str_time[6];           //6th char for '\0'
-    fscanf(source, " %s", str_time);
-
-    time->hour = atoi(str_time);
-    if (time->hour > 23) {
-        puts("Invalid time!");
+    if (fscanf(source, " %5s", str_time) != 1) {
+        puts("Failed to read time from file!");
         exit(1);
     }
 
-    int colon_pos = strcspn(str_time, ":");
-    if (colon_pos == -1) {
-        puts("Invalid time!");
-        exit(1);
-    }
-    time->minute = atoi(str_time + (colon_pos + 1));
-    if (time->minute > 59) {
+    if (sscanf(str_time, "%d:%d", &time->hours, &time->minutes) != 2 ||
+        time->hours > 23 || time->minutes > 59) {
         puts("Invalid time!");
         exit(1);
     }
@@ -294,7 +283,7 @@ void output_details(const DetailsType *details, const TypeOfSprite type, FILE *d
             fprintf(dest, "Text: %s\n", details->text.content);
             break;
         case LINE:
-            fprintf(dest, "Line_char: %c\n", details->line.character, details->line.character);
+            fprintf(dest, "Line_char: %c\n", details->line.character);
             fprintf(dest, "Length: %d\n", details->line.length);
             output_direction(&details->line.direction, dest);
             break;
@@ -333,10 +322,10 @@ void output_status(const SlotStatus *status, FILE *dest) {
     }
 }
 void output_time(const TimeType *time, FILE *dest) {
-    if (time->hour < 10) fprintf(dest, "0");
-    fprintf(dest, "%d:", time->hour);
-    if (time->minute < 10) fprintf(dest, "0");
-    fprintf(dest, "%d", time->minute);
+    if (time->hours < 10) fprintf(dest, "0");
+    fprintf(dest, "%d:", time->hours);
+    if (time->minutes < 10) fprintf(dest, "0");
+    fprintf(dest, "%d", time->minutes);
 }
 
 
@@ -387,4 +376,3 @@ void output_sprite_binary(const Sprite *sprite, FILE *dest) {
     fseek(dest, 0, SEEK_END);
     fwrite(sprite, sizeof(Sprite), 1, dest);
 }
-

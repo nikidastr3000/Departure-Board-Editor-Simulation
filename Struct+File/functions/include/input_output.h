@@ -9,6 +9,7 @@
 
 #include "db_structures.h"
 
+//work with stdin
 void input_sprite(Sprite *sprite);
 void input_details(DetailsType *details, TypeOfSprite type);
 void input_time(TimeType *time);

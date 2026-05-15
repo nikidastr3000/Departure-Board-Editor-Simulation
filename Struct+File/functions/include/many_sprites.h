@@ -7,7 +7,7 @@
 
 #include "db_structures.h"
 
-bool check_for_mistakes(Sprite *sprites, ScreenBuffer *screen);
+bool check_for_mistakes(Sprite *sprites, ScreenType *screen);
 
 void delete_sprites_array(Sprite **sprites);
 

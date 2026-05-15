@@ -13,6 +13,8 @@ add_executable(Struct_File main.c
         functions/src/one_sprite.c
         functions/include/one_sprite.h
         functions/src/many_sprites.c
-        functions/include/many_sprites.h)
+        functions/include/many_sprites.h
+        functions/src/display.c
+        functions/include/display.h)
 
 include_directories(functions/include .)        #unsure about this

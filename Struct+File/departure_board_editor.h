@@ -10,5 +10,6 @@
 #include "input_output.h"
 #include "one_sprite.h"
 #include "many_sprites.h"
+#include "display.h"
 
 #endif //STRUCT_FILE_DEPARTURE_BOARD_EDITOR_H

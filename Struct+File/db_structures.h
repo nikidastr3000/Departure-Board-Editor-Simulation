@@ -29,13 +29,13 @@ typedef enum {
 } SlotStatus;
 
 typedef struct{
-    int hour;
-    int minute;
+    int hours;
+    int minutes;
 } TimeType;
 
 typedef struct Slot {
-    int trip_number;
-    int station_number;
+    int trip_number;            //max 4 digits
+    int station_number;         //max 4 digits
 
     SlotStatus status;
     TimeType scheduled_departure;
@@ -52,17 +52,17 @@ typedef enum {
 typedef union {
     struct Text text;
     struct Line line;
-    struct Slot slot;
+    struct Slot slot;       //maybe make to pointer, so slots will represent a fixed place. And info(slots details) will be changed?
 } DetailsType;
 
 //////////////////////// Sprite ////////////////////////////
 typedef struct {
     char name[MAX_STRING_SIZE];
-    int x;
-    int y;
+    int x;          //in range from 0 to screen_width - 1
+    int y;          //in range from 0 to screen_height - 1
 
     TypeOfSprite type;
-    DetailsType details;        //maybe make to pointer, so slots will represent a fixed place. And info(slots details) will be changed?
+    DetailsType details;
 } Sprite;
 
 //////////////////////////// Screen ////////////////////////////
@@ -70,6 +70,6 @@ typedef struct{
     char **buffer;
     int width;
     int height;
-} ScreenBuffer;
+} ScreenType;
 
 #endif //STRUCT_FILE_DB_STRUCTURES_H

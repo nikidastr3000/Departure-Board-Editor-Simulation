@@ -2,7 +2,7 @@
 // Created by niki on 5/6/26.
 //
 
-#include "../include/help_functions.h"
+#include "help_functions.h"
 
 #include <stdio.h>
 #include <stdlib.h>
