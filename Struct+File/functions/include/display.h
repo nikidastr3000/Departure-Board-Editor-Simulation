@@ -7,7 +7,7 @@
 
 #include "db_structures.h"
 
-void display_sprites(const Sprite **sprites, ScreenType *screen);
+bool display_sprites(const Sprite **sprites, ScreenType *screen);
 void display_sprite(const Sprite *sprite, ScreenType *screen);
 //void display_details(const Sprite *sprite, ScreenType screen);      //unnecessary, because display_sprite directly calls display_details
 void display_text(const Sprite *sprite, ScreenType *screen);

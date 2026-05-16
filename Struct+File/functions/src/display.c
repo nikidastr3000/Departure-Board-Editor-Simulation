@@ -11,10 +11,20 @@
 #include "help_functions.h"
 #include "one_sprite.h"
 
-void display_sprites(const Sprite **sprites, ScreenType *screen) {
+bool display_sprites(const Sprite **sprites, ScreenType *screen) {
+    ScreenType *test_screen = check_sprites(sprites, *screen);
+    if (test_screen == NULL) {
+        return false;
+    }
+    delete_screen(test_screen);
+    free(test_screen);
+
     for (int i = 0; sprites[i] != NULL; i++) {
         display_sprite(sprites[i], screen);
     }
+
+    output_screen(screen, false);
+    return true;
 }
 
 void display_sprite(const Sprite *sprite, ScreenType *screen) {
@@ -34,7 +44,7 @@ void display_sprite(const Sprite *sprite, ScreenType *screen) {
 void display_text(const Sprite *sprite, ScreenType *screen) {
     const int y = sprite->y;
     const int x = sprite->x;
-    for (int i = 0; sprite->details.text.content[i] != '\0' && x + i < screen->width; i++) {
+    for (int i = 0; sprite->details.text.content[i] != '\0' && x + i < screen->width && y < screen->height; i++) {
         screen->buffer[y][x + i] = sprite->details.text.content[i];
     }
 }
@@ -48,12 +58,12 @@ void display_line(const Sprite *sprite, ScreenType *screen) {
 
     switch (direction) {
         case RIGHT:
-            for (int i = 0; i < length && x + i < screen->width; i++) {
+            for (int i = 0; i < length && x + i < screen->width && y < screen->height; i++) {
                 screen->buffer[y][x + i] = character;
             }
             break;
         case DOWN:
-            for (int i = 0; i < length && y + i < screen->height; i++) {
+            for (int i = 0; i < length && y + i < screen->height && y < screen->height; i++) {
                 screen->buffer[y + i][x] = character;
             }
             break;
@@ -63,10 +73,13 @@ void display_line(const Sprite *sprite, ScreenType *screen) {
 void display_slot(const Sprite *sprite, ScreenType *screen) {
     char *slot_str = slot_to_string(&sprite->details.slot, screen->bg_char);
 
-    for (int i = 0; i < strlen(slot_str) - 1 && sprite->x + i < screen->width; i++) {
+    const int x = sprite->x;
+    const int y = sprite->y;
+
+    for (int i = 0; slot_str[i] != '\0' && x + i < screen->width && y < screen->height; i++) {
         if (slot_str[i] == screen->bg_char)         //skip if 'empty'
             continue;
-        screen->buffer[sprite->y][sprite->x + i] = slot_str[i];
+        screen->buffer[y][x + i] = slot_str[i];
     }
 
     free(slot_str);
@@ -144,9 +157,17 @@ ScreenType *check_sprites(const Sprite **sprites, ScreenType screen) {
     bool allSpritesValid = true;
 
     for (int i = 0; sprites[i] != NULL; i++) {
+        //checking each sprite if it's valid by him self
         if (!validate_sprite(sprites[i])) {
             printf("Sprite number %d(\"%s\") is invalid!\n", i, sprites[i]->name);
-            printf("First repair the sprite, then call function \"check_sprites\" again!\n\n");
+            printf("Firstly repair the sprite, then try again!\n\n");
+            return NULL;
+        }
+
+        if (sprites[i]->x >= test_screen->width || sprites[i]->y >= test_screen->height) {
+            printf("Sprite number %d(\"%s\") is outside the screen boundaries in coordinates (%d,%d)!\n",
+            i, sprites[i]->name, sprites[i]->x, sprites[i]->y);
+            printf("Firstly repair the sprite, then try again!\n\n");
             return NULL;
         }
 
@@ -162,7 +183,7 @@ ScreenType *check_sprites(const Sprite **sprites, ScreenType screen) {
                 }
                 break;
             case SLOT:
-                if (!check_display_slot(sprites, i, &screen)) {
+                if (!check_display_slot(sprites, i, test_screen)) {
                     allSpritesValid = false;
                 }
                 break;

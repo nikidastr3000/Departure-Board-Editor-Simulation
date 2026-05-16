@@ -9,7 +9,7 @@
 
 //////////////////////////// Text ////////////////////////////
 struct Text{
-    char content[MAX_STRING_SIZE];
+    char content[MAX_STRING_SIZE];      //all chars are allowed (from 0 to 127)
 };
 
 //////////////////////////// Line ////////////////////////////
@@ -20,7 +20,7 @@ typedef enum{
 
 struct Line {
     char character;         //can be only visible char. ASCII code > 32
-    int length;
+    int length;             //can be 0(will be invisible)
     DirectionEnum direction;
 };
 
@@ -37,8 +37,8 @@ typedef struct{
 } TimeType;
 
 typedef struct Slot {
-    int trip_number;            //max 4 digits
-    int station_number;         //max 4 digits
+    int trip_number;            // >= 0
+    int station_number;         // >= 0
 
     SlotStatus status;
     TimeType scheduled_departure;

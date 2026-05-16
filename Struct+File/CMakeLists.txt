@@ -15,6 +15,7 @@ add_executable(Struct_File main.c
         functions/src/many_sprites.c
         functions/include/many_sprites.h
         functions/src/display.c
-        functions/include/display.h)
+        functions/include/display.h
+        departure_board_editor.c)
 
 include_directories(functions/include .)        #unsure about this

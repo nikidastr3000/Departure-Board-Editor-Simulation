@@ -12,4 +12,6 @@
 #include "many_sprites.h"
 #include "display.h"
 
+void menu(ScreenType *screen);
+
 #endif //STRUCT_FILE_DEPARTURE_BOARD_EDITOR_H

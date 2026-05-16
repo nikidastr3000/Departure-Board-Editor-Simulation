@@ -32,12 +32,53 @@ int measure_sprite_length(Sprite *sprite) {
 }
 
 bool validate_sprite(const Sprite *sprite) {
+    if (sprite->name[0] == '\0')
+        return false;
+
+    if (sprite->x < 0 || sprite->y < 0)
+        return false;
+
+    switch (sprite->type) {
+        case TEXT:
+            if (sprite->details.text.content[0] == '\0')
+                return false;
+            break;
+
+        case LINE:
+            if (sprite->details.line.character <= 32 || sprite->details.line.character >= 127)
+                return false;
+            if (sprite->details.line.length < 0)
+                return false;
+            if (sprite->details.line.direction != RIGHT && sprite->details.line.direction != DOWN)
+                return false;
+            break;
+
+        case SLOT:
+            if (sprite->details.slot.trip_number < 0)
+                return false;
+            if (sprite->details.slot.station_number < 0)
+                return false;
+            if (sprite->details.slot.status != WAITING && sprite->details.slot.status != IN_PROGRESS && sprite->details.slot.status != CANCELLED)
+                return false;
+            if (sprite->details.slot.scheduled_departure.hours < 0 || sprite->details.slot.scheduled_departure.minutes < 0)
+                return false;
+            if (sprite->details.slot.estimated_departure.hours < 0 || sprite->details.slot.estimated_departure.minutes < 0)
+                return false;
+            if (sprite->details.slot.scheduled_departure.hours > 23 || sprite->details.slot.scheduled_departure.minutes > 59)
+                return false;
+            if (sprite->details.slot.estimated_departure.hours > 23 || sprite->details.slot.estimated_departure.minutes > 59)
+                return false;
+            break;
+        default:
+            return false;
+    }
+
     return true;
 }
 
 //SLOTS_MARGIN*' ' + field_1 + SLOTS_MARGIN*' ' + ' ' + SLOTS_MARGIN*' ' + field_2 + ...
 char *slot_to_string(const ScheduleSlot *slot, char bg_char) {
-    char *str = malloc(sizeof(char) * 201);     //200 - max size
+    char *str = malloc(sizeof(char) * 301);     //300 - max size
     int index = 0;
 
     for (int i = 0; i < SLOT_MARGIN; i++) {

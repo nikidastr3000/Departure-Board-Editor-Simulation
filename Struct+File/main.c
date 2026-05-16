@@ -7,8 +7,9 @@ void test_input_output();
 
 int main(void) {
     ScreenType screen = {.width = 60, .height = 15, .bg_char = 1};
-
     fill_screen(&screen);
+
+    menu(&screen);
 
     const char spriteInputFile[MAX_STRING_SIZE] = "sprites.txt";
     /*FILE *fp = fopen(spriteInputFile, "r+");
@@ -22,14 +23,16 @@ int main(void) {
     Sprite **sprites = input_sprites_from_file(spriteInputFile);
     //output_sprites(sprites, stdout);
 
-    ScreenType *test_screen = check_sprites((const Sprite **)sprites, screen);
+    /*ScreenType *test_screen = check_sprites((const Sprite **)sprites, screen);
+    if (!test_screen) {
+        exit(1);
+    }
     printf("Test screen: \n");
     output_screen(test_screen, true);
     delete_screen(test_screen);
-    free(test_screen);
+    free(test_screen);*/
 
     display_sprites((const Sprite **)sprites, &screen);
-    output_screen(&screen, false);
 
     delete_sprites_array(sprites);
     delete_screen(&screen);
