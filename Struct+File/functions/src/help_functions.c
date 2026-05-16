@@ -42,3 +42,8 @@ void skip_whitespaces(FILE * file) {
         ungetc(c, file);
     }
 }
+
+int int_string_length(const int value) {
+    //sprintf - returns the number of characters that would have been written, not counting the terminating null character.
+    return snprintf(NULL, 0, "%d", value);
+}

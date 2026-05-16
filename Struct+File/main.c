@@ -6,10 +6,9 @@
 void test_input_output();
 
 int main(void) {
-    ScreenType screen = {.width = 60, .height = 15};
+    ScreenType screen = {.width = 60, .height = 15, .bg_char = 1};
 
-    //initializing the screen with random chars(=1)
-    fill_screen(&screen, 1);
+    fill_screen(&screen);
 
     const char spriteInputFile[MAX_STRING_SIZE] = "sprites.txt";
     /*FILE *fp = fopen(spriteInputFile, "r+");
@@ -21,8 +20,17 @@ int main(void) {
     fclose(fp);*/
 
     Sprite **sprites = input_sprites_from_file(spriteInputFile);
-    display_sprites((const Sprite **)sprites, screen);
-    output_screen(screen);
+    //output_sprites(sprites, stdout);
+
+    ScreenType test_screen = {.width = 60, .height = 15, .bg_char = 1};
+    fill_screen(&test_screen);
+    check_sprites((const Sprite **)sprites, &test_screen);
+    printf("Test screen: \n");
+    output_screen(test_screen, TODO);
+    delete_screen(&test_screen);
+
+    display_sprites((const Sprite **)sprites, &screen);
+    output_screen(screen, TODO);
 
     delete_sprites_array(sprites);
     delete_screen(&screen);

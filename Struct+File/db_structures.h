@@ -4,6 +4,9 @@
 #define STRUCT_FILE_DB_STRUCTURES_H
 
 #define MAX_STRING_SIZE 100
+
+#define SLOT_MARGIN 1
+
 //////////////////////////// Text ////////////////////////////
 struct Text{
     char content[MAX_STRING_SIZE];
@@ -68,6 +71,7 @@ typedef struct {
 //////////////////////////// Screen ////////////////////////////
 typedef struct{
     char **buffer;
+    char bg_char;
     int width;
     int height;
 } ScreenType;

@@ -15,4 +15,6 @@ void find_field_in_file(FILE *file, const char *field);
 
 void skip_whitespaces(FILE *file);
 
+int int_string_length(int value);
+
 #endif //STRUCT_FILE_HELP_FUNCTIONS_H
