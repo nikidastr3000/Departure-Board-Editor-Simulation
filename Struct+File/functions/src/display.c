@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "help_functions.h"
 #include "one_sprite.h"
 
 void display_sprites(const Sprite **sprites, ScreenType *screen) {
@@ -88,16 +89,39 @@ void fill_screen(ScreenType *screen) {
     }
 }
 
-void output_screen(ScreenType screen, bool test_mode) {
-    if (!test_mode) {
-        for (int i = 0; i < screen.height; i++) {
-            printf("%s\n", screen.buffer[i]);
+void output_screen(const ScreenType *screen, bool test_mode) {
+    // max possible number of digits in x and y coordinates
+    int max_digits_in_x = int_string_length(screen->width - 1);      //-1 because coords start from 0
+    int max_digits_in_y = int_string_length(screen->height - 1);     //-1 because coords start from 0
+
+    if (test_mode) {        //x roods
+        char x_axis[max_digits_in_x][screen->width + 1];         //+1 for '\0'
+        for (int i = 0; i < screen->width; i++) {
+            char curr_coord[max_digits_in_x];       //number of coord
+            sprintf(curr_coord, "%*d", max_digits_in_x, i);
+            for (int j = 0; j < max_digits_in_x; j++) {
+                   x_axis[j][i] = curr_coord[j];    //saving number vertically
+            }
         }
-        puts("");
-        return;
+        for (int i = 0; i < max_digits_in_x; i++) {
+            x_axis[i][screen->width] = '\0';
+        }
+
+        for (int i = 0; i < max_digits_in_x; i++) {
+            printf("%*s ", max_digits_in_y, "");    //spaces for y-axis
+            printf("%s\n", x_axis[i]);
+        }
+        //puts("");
     }
 
+    for (int i = 0; i < screen->height; i++) {
+        if (test_mode) {
+            printf("%*d ", max_digits_in_y, i);
+        }
 
+        printf("%s\n", screen->buffer[i]);
+    }
+    puts("");
 }
 
 void delete_screen(ScreenType *screen) {
@@ -108,39 +132,48 @@ void delete_screen(ScreenType *screen) {
 }
 
 
-bool check_sprites(const Sprite **sprites, ScreenType *test_screen) {
+ScreenType *check_sprites(const Sprite **sprites, ScreenType screen) {
     printf("Checking sprites...\n");
 
-    bool ans = true;
+    ScreenType *test_screen = malloc(sizeof(ScreenType));
+    test_screen->height = screen.height;
+    test_screen->width = screen.width;
+    test_screen->bg_char = screen.bg_char;
+    fill_screen(test_screen);
+
+    bool allSpritesValid = true;
 
     for (int i = 0; sprites[i] != NULL; i++) {
         if (!validate_sprite(sprites[i])) {
             printf("Sprite number %d(\"%s\") is invalid!\n", i, sprites[i]->name);
             printf("First repair the sprite, then call function \"check_sprites\" again!\n\n");
-            return false;
+            return NULL;
         }
 
         switch (sprites[i]->type) {
             case TEXT:
                 if (!check_display_text(sprites, i, test_screen)) {
-                    ans = false;
+                    allSpritesValid = false;
                 }
                 break;
             case LINE:
                 if (!check_display_line(sprites, i, test_screen)) {
-                    ans = false;
+                    allSpritesValid = false;
                 }
                 break;
             case SLOT:
-                if (!check_display_slot(sprites, i, test_screen)) {
-                    ans = false;
+                if (!check_display_slot(sprites, i, &screen)) {
+                    allSpritesValid = false;
                 }
                 break;
         }
     }
 
+    if (allSpritesValid) {
+        printf("All sprites are valid!\n");
+    }
     puts("");
-    return ans;
+    return test_screen;
 }
 
 bool check_display_text(const Sprite **sprites, const int curr_sprite_num, ScreenType *test_screen) {

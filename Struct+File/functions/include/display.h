@@ -17,11 +17,12 @@ void display_slot(const Sprite *sprite, ScreenType *screen);
 
 //screen functions
 void fill_screen(ScreenType *screen);
-void output_screen(ScreenType screen, bool test_mode);
+//test_mode - outputting screen with coords system
+void output_screen(const ScreenType *screen, bool test_mode);
 void delete_screen(ScreenType *screen);
 
 
-bool check_sprites(const Sprite **sprites, ScreenType *test_screen);
+ScreenType *check_sprites(const Sprite **sprites, ScreenType screen);
 bool check_display_text(const Sprite **sprites, int curr_sprite_num, ScreenType *test_screen);
 bool check_display_line(const Sprite **sprites, int curr_sprite_num, ScreenType *test_screen);
 bool check_display_slot(const Sprite **sprites, int curr_sprite_num, ScreenType *test_screen);
