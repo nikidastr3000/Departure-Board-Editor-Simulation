@@ -15,9 +15,10 @@ void display_line(const Sprite *sprite, ScreenType screen);
 void display_slot(const Sprite *sprite, ScreenType screen);
 void display_string(const char *str, int *x, int *y, ScreenType screen, int margin);
 
+
+//screen functions
+void fill_screen(ScreenType *screen, char ch);
 void output_screen(ScreenType screen);
-
-
 void delete_screen(ScreenType *screen);
 
 #endif //STRUCT_FILE_DISPLAY_H

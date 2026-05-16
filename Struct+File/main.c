@@ -6,21 +6,20 @@
 void test_input_output();
 
 int main(void) {
-    const int screen_width = 80;
-    const int screen_height = 40;
-    ScreenType screen = {.width = screen_width, .height = screen_height};
+    ScreenType screen = {.width = 60, .height = 15};
 
     //initializing the screen with random chars(=1)
-    screen.buffer = (char **) malloc(sizeof(char *) * screen_height);
-    for (int i = 0; i < screen_height; i++) {
-        screen.buffer[i] = (char *) malloc(sizeof(char) * (screen_width + 1));
-        for (int j = 0; j < screen_width; j++) {
-            screen.buffer[i][j] = 1;
-        }
-        screen.buffer[i][screen_width] = '\0';
-    }
+    fill_screen(&screen, 1);
 
     const char spriteInputFile[MAX_STRING_SIZE] = "sprites.txt";
+    /*FILE *fp = fopen(spriteInputFile, "r+");
+
+    Sprite spr;
+    input_sprite(&spr);
+    output_sprite(&spr, fp);
+
+    fclose(fp);*/
+
     Sprite **sprites = input_sprites_from_file(spriteInputFile);
     display_sprites((const Sprite **)sprites, screen);
     output_screen(screen);

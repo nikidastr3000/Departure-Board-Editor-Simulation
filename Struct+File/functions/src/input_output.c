@@ -253,6 +253,7 @@ void output_sprites(Sprite **sprites, FILE *dest) {
 
 void output_sprite(const Sprite *sprite, FILE *dest) {
     fseek(dest, 0, SEEK_END);
+    fprintf(dest, "\n");
 
     fprintf(dest, "Sprite_name: %s\n", sprite->name);
     fprintf(dest, "X_coord: %d\n", sprite->x);
@@ -291,8 +292,8 @@ void output_details(const DetailsType *details, const TypeOfSprite type, FILE *d
             fprintf(dest, "Trip_number: %d\n", details->slot.trip_number);
             fprintf(dest, "Station_number: %d\n", details->slot.station_number);
             output_status(&details->slot.status, dest);
-            fprintf(dest, "Scheduled_departure: "); output_time(&details->slot.scheduled_departure, dest); fprintf(dest, "\n");
-            fprintf(dest, "Estimated_departure: "); output_time(&details->slot.estimated_departure, dest); fprintf(dest, "\n");
+            fprintf(dest, "Scheduled_departure(hh:mm): "); output_time(&details->slot.scheduled_departure, dest); fprintf(dest, "\n");
+            fprintf(dest, "Estimated_departure(hh:mm): "); output_time(&details->slot.estimated_departure, dest); fprintf(dest, "\n");
             break;
     }
 }

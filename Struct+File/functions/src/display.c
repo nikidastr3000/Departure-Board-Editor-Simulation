@@ -68,7 +68,7 @@ void display_slot(const Sprite *sprite, ScreenType screen) {
     sprintf(estimated_departure, "%02d:%02d", sprite->details.slot.estimated_departure.hours, sprite->details.slot.estimated_departure.minutes);
 
     char trip_number[5];                //max 4 digit + 1 char for '\0'
-    sprintf(trip_number, "%d", sprite->details.slot.station_number);
+    sprintf(trip_number, "%d", sprite->details.slot.trip_number);
 
     char status[MAX_STRING_SIZE];
     switch (sprite->details.slot.status) {
@@ -95,28 +95,39 @@ void display_slot(const Sprite *sprite, ScreenType screen) {
 
 void display_string(const char *str, int *x, int *y, ScreenType screen, const int margin) {
     for (int i = 0; i < margin && *x + 1 < screen.width; i++) {
-        screen.buffer[(*y)][*x + i] = ' ';
+        screen.buffer[(*y)][(*x)++] = ' ';
     }
-    *x += margin;
 
     for (int i = 0; str[i] != '\0' && *x + i < screen.width; i++) {
-        screen.buffer[(*y)][*x + i] = str[i];
-
+        screen.buffer[(*y)][(*x)++] = str[i];
     }
 
     for (int i = 0; i < margin && *x + 1 < screen.width; i++) {
-        screen.buffer[(*y)][*x + i] = ' ';
+        screen.buffer[(*y)][(*x)++] = ' ';
     }
+
 }
 
+
+
+//screen functions
+
+void fill_screen(ScreenType *screen, char ch) {
+    screen->buffer = (char **) malloc(sizeof(char *) * screen->height);
+    for (int i = 0; i < screen->height; i++) {
+        screen->buffer[i] = (char *) malloc(sizeof(char) * (screen->width + 1));
+        for (int j = 0; j < screen->width; j++) {
+            screen->buffer[i][j] = ch;
+        }
+        screen->buffer[i][screen->width] = '\0';
+    }
+}
 
 void output_screen(ScreenType screen) {
     for (int i = 0; i < screen.height; i++) {
         printf("%s\n", screen.buffer[i]);
     }
 }
-
-
 
 void delete_screen(ScreenType *screen) {
     for (int i = 0; i < screen->height; i++) {
