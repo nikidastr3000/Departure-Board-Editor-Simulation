@@ -80,6 +80,7 @@ typedef enum {
     //possible from both start and edit mode
     OPENING_FILE = 1,
     CREATING_FILE,
+    //RESTORING_PREVIOUS_SESSION,
     EXITING_PROGRAM,
 
     //possible only from edit mode

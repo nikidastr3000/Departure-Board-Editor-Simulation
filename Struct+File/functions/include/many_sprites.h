@@ -7,11 +7,13 @@
 
 #include "globals_and_structures.h"
 
-void add_sprite_to_sprites(Sprite sprite);
+void add_sprite_to_sprites(const Sprite *sprite);
+
+void edit_sprite_in_sprites(const Sprite *model_sprite);
 
 
 
-Sprite *find_sprites_by_model(Sprite *sprites, Sprite model);
+Sprite *find_sprites_by_model(Sprite **sprites, Sprite model);
 void block_sprite_fields(Sprite *sprite);
 bool cmp_sprite_with_model(Sprite *sprite, Sprite model);
 

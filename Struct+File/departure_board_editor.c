@@ -124,8 +124,7 @@ void compute_state() {
             Sprite *sprite = malloc(sizeof(Sprite));
             input_sprite_from_stdin(sprite);
 
-            sprites = add_sprite_to_array(sprites, sprite);
-
+            add_sprite_to_sprites(sprite);
 
             state = IN_EDIT_MODE;
 
@@ -133,6 +132,11 @@ void compute_state() {
 
         case EDITING_SPRITE:
             puts("Editing sprite...");
+
+            Sprite *model_sprite = malloc(sizeof(Sprite));
+            input_sprite_from_stdin(model_sprite);
+            edit_sprite_in_sprites(model_sprite);
+            free(model_sprite);
 
             break;
 
@@ -155,7 +159,7 @@ static void main_loop() {
                 puts("(1) Open File");
                 puts("(2) Create new File");
                 puts("(3) Exit");
-                puts("Enter your choice: ");
+                printf("Enter your choice: ");
                 scanf(" %d", &state);
                 break;
 
@@ -169,7 +173,7 @@ static void main_loop() {
                 puts("(7) Add Sprite");
                 puts("(8) Edit Sprite");
                 puts("(9) Delete Sprite");
-                puts("Enter your choice: ");
+                printf("Enter your choice: ");
                 scanf(" %d", &state);
                 break;
 
@@ -180,6 +184,11 @@ static void main_loop() {
                 puts("Invalid state!");
                 exit(1);
         }
+
+        if (!flag) {
+            break;
+        }
+
         compute_state();
     }
 }
