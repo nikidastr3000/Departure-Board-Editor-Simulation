@@ -4,7 +4,7 @@ project(Struct_File C)
 set(CMAKE_C_STANDARD 23)
 
 add_executable(Struct_File main.c
-        db_structures.h
+        globals_and_structures.h
         functions/src/help_functions.c
         functions/include/help_functions.h
         departure_board_editor.h

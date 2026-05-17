@@ -3,13 +3,9 @@
 #ifndef STRUCT_FILE_DB_STRUCTURES_H
 #define STRUCT_FILE_DB_STRUCTURES_H
 
-#define MAX_STRING_SIZE 100
-
-#define SLOT_MARGIN 1
-
 //////////////////////////// Text ////////////////////////////
 struct Text{
-    char content[MAX_STRING_SIZE];      //all chars are allowed (from 0 to 127)
+    char *content;      //all chars are allowed (from 0 to 127)
 };
 
 //////////////////////////// Line ////////////////////////////
@@ -60,7 +56,7 @@ typedef union {
 
 //////////////////////// Sprite ////////////////////////////
 typedef struct {
-    char name[MAX_STRING_SIZE];
+    char *name;
     int x;          //in range from 0 to screen_width - 1
     int y;          //in range from 0 to screen_height - 1
 
@@ -75,5 +71,39 @@ typedef struct{
     int width;
     int height;
 } ScreenType;
+
+//////////////////////////// MENU ////////////////////////////
+typedef enum {
+    IN_START_MODE=-1,
+    IN_EDIT_MODE=0,
+
+    //possible from both start and edit mode
+    OPENING_FILE = 1,
+    CREATING_FILE,
+    EXITING_PROGRAM,
+
+    //possible only from edit mode
+    SAVING_FILE,
+    CLOSING_FILE,
+
+    DISPLAYING,
+    ADDING_SPRITE,
+    EDITING_SPRITE,
+    DELETING_SPRITE,
+} StateEnum;
+
+
+//GLOBALS
+extern int MAX_STRING_SIZE;
+
+extern int SLOT_MARGIN;
+
+extern ScreenType SCREEN;
+
+extern StateEnum state;
+
+extern char *opened_file_name;
+
+extern Sprite **sprites;
 
 #endif //STRUCT_FILE_DB_STRUCTURES_H

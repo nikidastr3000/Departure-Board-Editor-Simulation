@@ -32,7 +32,7 @@ int measure_sprite_length(Sprite *sprite) {
 }
 
 bool validate_sprite(const Sprite *sprite) {
-    if (sprite->name[0] == '\0')
+    if (sprite == NULL || sprite->name == NULL || sprite->name[0] == '\0')
         return false;
 
     if (sprite->x < 0 || sprite->y < 0)
@@ -40,7 +40,7 @@ bool validate_sprite(const Sprite *sprite) {
 
     switch (sprite->type) {
         case TEXT:
-            if (sprite->details.text.content[0] == '\0')
+            if (sprite->details.text.content == NULL || sprite->details.text.content[0] == '\0')
                 return false;
             break;
 
@@ -168,4 +168,3 @@ char *slot_to_string(const ScheduleSlot *slot, char bg_char) {
 
     return str;
 }
-

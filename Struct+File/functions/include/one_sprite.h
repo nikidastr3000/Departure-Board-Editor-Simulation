@@ -5,7 +5,7 @@
 #ifndef STRUCT_FILE_ONE_SPRITE_H
 #define STRUCT_FILE_ONE_SPRITE_H
 
-#include "db_structures.h"
+#include "globals_and_structures.h"
 
 void set_actual_departure_time(Sprite *sprite, TimeType depTime);
 //void bus_arrived(SpriteType *sprite, TimeType time);

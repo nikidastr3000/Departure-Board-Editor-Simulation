@@ -7,12 +7,12 @@
 
 #include <stdio.h>
 
-#include "db_structures.h"
+#include "globals_and_structures.h"
 
 //work with stdin
-void input_sprite(Sprite *sprite);
-void input_details(DetailsType *details, TypeOfSprite type);
-void input_time(TimeType *time);
+void input_sprite_from_stdin(Sprite *sprite);
+void input_details_from_stdin(DetailsType *details, TypeOfSprite type);
+void input_time_from_stdin(TimeType *time);
 
 Sprite **input_sprites_from_file(const char *filename);
 //the cursor in the file has to be right before the info about the necessary Sprite
@@ -32,11 +32,16 @@ void output_direction(const DirectionEnum *direction, FILE *dest);
 void output_status(const SlotStatus *status, FILE *dest);
 void output_time(const TimeType *time, FILE *dest);
 
+/*
 //binary
 Sprite **input_sprites_binary(const char *file_name);
 //void input_sprite_binary(Sprite *sprite, FILE *source);
 
 void output_sprites_binary(Sprite **sprites, FILE *dest);
 void output_sprite_binary(const Sprite *sprite, FILE *dest);
+*/
+
+void free_sprites_array(Sprite **sprites);
+void free_sprite(Sprite *sprite);
 
 #endif //STRUCT_FILE_INPUT_OUTPUT_H

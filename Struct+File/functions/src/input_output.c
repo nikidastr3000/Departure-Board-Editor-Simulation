@@ -9,9 +9,14 @@
 #include <string.h>
 
 
-void input_sprite(Sprite *sprite) {
+void input_sprite_from_stdin(Sprite *sprite) {
     puts("Inputting Sprite");
 
+    sprite->name = malloc(sizeof(char) * MAX_STRING_SIZE);
+    if (sprite->name == NULL) {
+        perror("Failed to allocate memory for sprite name");
+        exit(1);
+    }
     printf("Sprite_name: ");
     fgets(sprite->name, MAX_STRING_SIZE, stdin);
     remove_newline(sprite->name);       //don't need '\n' at the end
@@ -30,13 +35,18 @@ void input_sprite(Sprite *sprite) {
     scanf(" %d", &sprite->type);
     clear_stdin();
 
-    input_details(&sprite->details, sprite->type);
+    input_details_from_stdin(&sprite->details, sprite->type);
 
     puts("Input successfully ended!\n");
 }
-void input_details(DetailsType *details, const TypeOfSprite type) {
+void input_details_from_stdin(DetailsType *details, const TypeOfSprite type) {
     switch (type) {
         case TEXT:
+            details->text.content = malloc(sizeof(char) * MAX_STRING_SIZE);
+            if (details->text.content == NULL) {
+                perror("Failed to allocate memory for text content");
+                exit(1);
+            }
             printf("Text: ");
             fgets(details->text.content, MAX_STRING_SIZE, stdin);
             remove_newline(details->text.content);
@@ -76,9 +86,9 @@ void input_details(DetailsType *details, const TypeOfSprite type) {
             clear_stdin();
 
             printf("Scheduled_departure(hh:mm): ");
-            input_time(&details->slot.scheduled_departure);
+            input_time_from_stdin(&details->slot.scheduled_departure);
             printf("Estimated_departure(hh:mm): ");
-            input_time(&details->slot.estimated_departure);
+            input_time_from_stdin(&details->slot.estimated_departure);
 
             break;
 
@@ -87,7 +97,7 @@ void input_details(DetailsType *details, const TypeOfSprite type) {
             exit(1);
     }
 }
-void input_time(TimeType *time) {
+void input_time_from_stdin(TimeType *time) {
     char str_time[6];                   //6th char for '\0'
     if (scanf(" %5s", str_time) != 1) {
         puts("Invalid input format!");
@@ -109,7 +119,7 @@ Sprite **input_sprites_from_file(const char *filename) {
     FILE *source = fopen(filename, "r");
     if (source == NULL) {
         puts("Couldn't open file!");
-        exit(1);
+        return NULL;
     }
 
     int array_capacity = 4;
@@ -153,6 +163,11 @@ Sprite **input_sprites_from_file(const char *filename) {
 
 void input_sprite_from_file(Sprite *sprite, FILE *source) {
     find_field_in_file(source, "Sprite_name:");
+    sprite->name = malloc(sizeof(char) * MAX_STRING_SIZE);
+    if (sprite->name == NULL) {
+        perror("Failed to allocate memory for sprite name from file");
+        exit(1);
+    }
     fgets(sprite->name, MAX_STRING_SIZE, source);
     remove_newline(sprite->name);
 
@@ -182,6 +197,11 @@ void input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *sour
     switch (type) {
         case TEXT:
             find_field_in_file(source, "Text:");
+            details->text.content = malloc(sizeof(char) * MAX_STRING_SIZE);
+            if (details->text.content == NULL) {
+                perror("Failed to allocate memory for text content from file");
+                exit(1);
+            }
             fgets(details->text.content, MAX_STRING_SIZE, source);
             remove_newline(details->text.content);
             break;
@@ -330,7 +350,7 @@ void output_time(const TimeType *time, FILE *dest) {
 }
 
 
-//binary
+/*//binary
 Sprite **input_sprites_binary(const char *file_name) {
     printf("(binary)Inputting Sprites from %s\n", file_name);
 
@@ -340,27 +360,86 @@ Sprite **input_sprites_binary(const char *file_name) {
         exit(1);
     }
 
-    fseek(fp, 0, SEEK_END);
-    const long file_size = ftell(fp);
+    // The binary file format will be:
+    // [num_sprites (int)]
+    // For each sprite:
+    //   [x (int)]
+    //   [y (int)]
+    //   [type (TypeOfSprite)]
+    //   [name_length (int)]
+    //   [name (char array)]
+    //   If type is TEXT:
+    //     [content_length (int)]
+    //     [content (char array)]
+    //   If type is LINE:
+    //     [character (char)]
+    //     [length (int)]
+    //     [direction (DirectionEnum)]
+    //   If type is SLOT:
+    //     [trip_number (int)]
+    //     [station_number (int)]
+    //     [status (SlotStatus)]
+    //     [scheduled_departure (TimeType)]
+    //     [estimated_departure (TimeType)]
 
-    if (file_size % sizeof(Sprite) != 0) {
-        fprintf(stderr, "File size is not a multiple of Sprite size!\n");
+    int num_sprites = 0;
+    fread(&num_sprites, sizeof(int), 1, fp);
+
+    Sprite **sprites = malloc(sizeof(Sprite *) * (num_sprites + 1));
+    if (sprites == NULL) {
+        perror("Failed to allocate memory for sprites array");
         exit(1);
     }
 
-    const long arr_size = file_size / (long)sizeof(Sprite);
-    rewind(fp);
-
-
-    Sprite temp_sprites[arr_size];
-    fread(temp_sprites, sizeof(Sprite), arr_size, fp);
-
-    Sprite **sprites = malloc(sizeof(Sprite *) * (arr_size + 1));
-    for (int i = 0; i < arr_size; i++) {
+    for (int i = 0; i < num_sprites; i++) {
         sprites[i] = malloc(sizeof(Sprite));
-        *sprites[i] = temp_sprites[i];
+        if (sprites[i] == NULL) {
+            perror("Failed to allocate memory for sprite");
+            exit(1);
+        }
+
+        fread(&sprites[i]->x, sizeof(int), 1, fp);
+        fread(&sprites[i]->y, sizeof(int), 1, fp);
+        fread(&sprites[i]->type, sizeof(TypeOfSprite), 1, fp);
+
+        int name_length;
+        fread(&name_length, sizeof(int), 1, fp);
+        sprites[i]->name = malloc(sizeof(char) * (name_length + 1));
+        if (sprites[i]->name == NULL) {
+            perror("Failed to allocate memory for sprite name");
+            exit(1);
+        }
+        fread(sprites[i]->name, sizeof(char), name_length, fp);
+        sprites[i]->name[name_length] = '\0';
+
+        switch (sprites[i]->type) {
+            case TEXT: {
+                int content_length;
+                fread(&content_length, sizeof(int), 1, fp);
+                sprites[i]->details.text.content = malloc(sizeof(char) * (content_length + 1));
+                if (sprites[i]->details.text.content == NULL) {
+                    perror("Failed to allocate memory for text content");
+                    exit(1);
+                }
+                fread(sprites[i]->details.text.content, sizeof(char), content_length, fp);
+                sprites[i]->details.text.content[content_length] = '\0';
+                break;
+            }
+            case LINE:
+                fread(&sprites[i]->details.line.character, sizeof(char), 1, fp);
+                fread(&sprites[i]->details.line.length, sizeof(int), 1, fp);
+                fread(&sprites[i]->details.line.direction, sizeof(DirectionEnum), 1, fp);
+                break;
+            case SLOT:
+                fread(&sprites[i]->details.slot.trip_number, sizeof(int), 1, fp);
+                fread(&sprites[i]->details.slot.station_number, sizeof(int), 1, fp);
+                fread(&sprites[i]->details.slot.status, sizeof(SlotStatus), 1, fp);
+                fread(&sprites[i]->details.slot.scheduled_departure, sizeof(TimeType), 1, fp);
+                fread(&sprites[i]->details.slot.estimated_departure, sizeof(TimeType), 1, fp);
+                break;
+        }
     }
-    sprites[arr_size] = NULL;
+    sprites[num_sprites] = NULL;
 
     fclose(fp);
     puts("Input successfully ended!\n");
@@ -369,11 +448,67 @@ Sprite **input_sprites_binary(const char *file_name) {
 }
 
 void output_sprites_binary(Sprite **sprites, FILE *dest) {
+    int num_sprites = 0;
+    for (int i = 0; sprites[i] != NULL; i++) {
+        num_sprites++;
+    }
+
+    fwrite(&num_sprites, sizeof(int), 1, dest);
+
     for (int i = 0; sprites[i] != NULL; i++) {
         output_sprite_binary(sprites[i], dest);
     }
 }
 void output_sprite_binary(const Sprite *sprite, FILE *dest) {
-    fseek(dest, 0, SEEK_END);
-    fwrite(sprite, sizeof(Sprite), 1, dest);
+    fwrite(&sprite->x, sizeof(int), 1, dest);
+    fwrite(&sprite->y, sizeof(int), 1, dest);
+    fwrite(&sprite->type, sizeof(TypeOfSprite), 1, dest);
+
+    int name_length = strlen(sprite->name);
+    fwrite(&name_length, sizeof(int), 1, dest);
+    fwrite(sprite->name, sizeof(char), name_length, dest);
+
+    switch (sprite->type) {
+        case TEXT: {
+            int content_length = strlen(sprite->details.text.content);
+            fwrite(&content_length, sizeof(int), 1, dest);
+            fwrite(sprite->details.text.content, sizeof(char), content_length, dest);
+            break;
+        }
+        case LINE:
+            fwrite(&sprite->details.line.character, sizeof(char), 1, dest);
+            fwrite(&sprite->details.line.length, sizeof(int), 1, dest);
+            fwrite(&sprite->details.line.direction, sizeof(DirectionEnum), 1, dest);
+            break;
+        case SLOT:
+            fwrite(&sprite->details.slot.trip_number, sizeof(int), 1, dest);
+            fwrite(&sprite->details.slot.station_number, sizeof(int), 1, dest);
+            fwrite(&sprite->details.slot.status, sizeof(SlotStatus), 1, dest);
+            fwrite(&sprite->details.slot.scheduled_departure, sizeof(TimeType), 1, dest);
+            fwrite(&sprite->details.slot.estimated_departure, sizeof(TimeType), 1, dest);
+            break;
+    }
+}*/
+
+
+
+void free_sprite(Sprite *sprite) {
+    if (sprite == NULL) return;
+
+    free(sprite->name);
+    sprite->name = NULL;
+
+    if (sprite->type == TEXT) {
+        free(sprite->details.text.content);
+        sprite->details.text.content = NULL;
+    }
+    free(sprite);
+}
+void free_sprites_array(Sprite **sprites) {
+    if (sprites == NULL) return;
+
+    for (int i = 0; sprites[i] != NULL; i++) {
+        free_sprite(sprites[i]);
+    }
+    free(sprites);
 }

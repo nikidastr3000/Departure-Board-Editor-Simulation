@@ -5,9 +5,11 @@
 #ifndef STRUCT_FILE_MANY_SPRITES_H
 #define STRUCT_FILE_MANY_SPRITES_H
 
-#include "db_structures.h"
+#include "globals_and_structures.h"
 
-void delete_sprites_array(Sprite **sprites);
+void add_sprite_to_sprites(Sprite sprite);
+
+
 
 Sprite *find_sprites_by_model(Sprite *sprites, Sprite model);
 void block_sprite_fields(Sprite *sprite);
