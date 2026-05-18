@@ -9,7 +9,7 @@
 
 void add_sprite_to_sprites(const Sprite *sprite);
 
-void edit_sprite_in_sprites(const Sprite *model_sprite);
+void edit_sprite_in_sprites(int sprite_index);
 
 
 

@@ -28,6 +28,6 @@ void add_sprite_to_sprites(const Sprite *sprite) {
     SPRITES[size + 1] = NULL;
 }
 
-void edit_sprite_in_sprites(const Sprite *model_sprite) {
+void edit_sprite_in_sprites(const int sprite_index) {
 
 }

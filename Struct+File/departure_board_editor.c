@@ -47,16 +47,22 @@ static void init() {
 }
 
 void compute_state() {
+    printf("\n");
     switch (STATE) {
         case OPENING_FILE:
             puts("Opening file...");
 
             printf("Enter File Name: ");
             scanf(" %s", OPENED_FILE_NAME);
+            clear_stdin();
 
             SPRITES = input_sprites_from_file(OPENED_FILE_NAME);
-
-            STATE = IN_EDIT_MODE;
+            if (SPRITES == NULL) {
+                STATE = IN_START_MODE;
+            }
+            else{
+                STATE = IN_EDIT_MODE;
+            }
 
             break;
 
@@ -65,6 +71,7 @@ void compute_state() {
 
             printf("Enter File Name: ");
             scanf(" %s", OPENED_FILE_NAME);
+            clear_stdin();
 
             FILE *file = fopen(OPENED_FILE_NAME, "w");
             if (file == NULL) {
@@ -118,6 +125,28 @@ void compute_state() {
 
             break;
 
+        case OUTPUTTING_ALL_SPRITES_INFO:
+            puts("Outputting all sprites info...");
+
+            output_sprites_to_stdout(SPRITES);
+
+            STATE = IN_EDIT_MODE;
+
+            break;
+
+        case OUTPUTTING_SPRITE_INFO:
+            puts("Outputting sprite info...");
+
+            int sprite_index_for_output;
+            printf("Enter sprite index: ");
+            scanf(" %d", &sprite_index_for_output);
+            clear_stdin();
+            output_sprite(SPRITES[sprite_index_for_output], stdout);
+
+            STATE = IN_EDIT_MODE;
+
+            break;
+
         case ADDING_SPRITE:
             puts("Adding sprite...");
 
@@ -133,10 +162,15 @@ void compute_state() {
         case EDITING_SPRITE:
             puts("Editing sprite...");
 
-            Sprite *model_sprite = malloc(sizeof(Sprite));
-            input_sprite_from_stdin(model_sprite);
-            edit_sprite_in_sprites(model_sprite);
-            free(model_sprite);
+            int sprite_index_for_edit;
+            printf("Enter sprite index: ");
+            scanf(" %d", &sprite_index_for_edit);
+            clear_stdin();
+
+            edit_sprite_in_sprites(sprite_index_for_edit);
+
+            STATE = IN_EDIT_MODE;
+
 
             break;
 
@@ -147,20 +181,21 @@ void compute_state() {
 
         default:
             puts("Invalid state!");
-            exit(1);
+            STATE = IN_START_MODE;
     }
+
+    printf("\n");
 }
 
 static void main_loop() {
-    bool flag = true;
-    while (flag) {
+    while (true) {
         switch (STATE) {
             case IN_START_MODE:
                 puts("(1) Open File");
                 puts("(2) Create new File");
                 puts("(3) Exit");
                 printf("Enter your choice: ");
-                scanf(" %d", &STATE);
+
                 break;
 
             case IN_EDIT_MODE:
@@ -170,22 +205,24 @@ static void main_loop() {
                 puts("(4) Save File");
                 puts("(5) Close File");
                 puts("(6) Display");
-                puts("(7) Add Sprite");
-                puts("(8) Edit Sprite");
-                puts("(9) Delete Sprite");
+                puts("(7) Output all sprites info");
+                puts("(8) Output sprite info");
+                puts("(9) Add Sprite");
+                puts("(10) Edit Sprite");
+                puts("(11) Delete Sprite");
                 printf("Enter your choice: ");
-                scanf(" %d", &STATE);
+
                 break;
 
-            case EXITING_PROGRAM:
-                flag = false;
-                break;
             default:
                 puts("Invalid state!");
                 exit(1);
         }
 
-        if (!flag) {
+        scanf(" %d", &STATE);
+        clear_stdin();
+
+        if (STATE == EXITING_PROGRAM) {
             break;
         }
 
