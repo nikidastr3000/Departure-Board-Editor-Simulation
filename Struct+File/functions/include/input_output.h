@@ -23,6 +23,9 @@ void input_direction_from_file(DirectionEnum *direction, FILE *source);
 void input_status_from_file(SlotStatus *status, FILE *source);
 void input_time_from_file(TimeType *time, FILE *source);
 
+//special short output for the array of sprites
+void output_sprites_to_stdout(Sprite **sprites);
+
 //work with stdout or custom file
 void output_sprites(Sprite **sprites, FILE *dest);
 void output_sprite(const Sprite *sprite, FILE *dest);

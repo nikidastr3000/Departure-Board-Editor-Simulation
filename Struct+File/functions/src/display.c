@@ -19,8 +19,8 @@ bool display_sprites() {
     delete_screen(test_screen);
     free(test_screen);
 
-    for (int i = 0; sprites[i] != NULL; i++) {
-        display_sprite(sprites[i]);
+    for (int i = 0; SPRITES[i] != NULL; i++) {
+        display_sprite(SPRITES[i]);
     }
 
     output_screen(&SCREEN, false);
@@ -157,22 +157,22 @@ ScreenType *check_sprites(ScreenType screen) {
 
     bool allSpritesValid = true;
 
-    for (int i = 0; sprites[i] != NULL; i++) {
+    for (int i = 0; SPRITES[i] != NULL; i++) {
         //checking each sprite if it's valid by him self
-        if (!validate_sprite(sprites[i])) {
-            printf("Sprite number %d(\"%s\") is invalid!\n", i, sprites[i]->name);
+        if (!validate_sprite(SPRITES[i])) {
+            printf("Sprite number %d(\"%s\") is invalid!\n", i, SPRITES[i]->name);
             printf("Firstly repair the sprite, then try again!\n\n");
             return NULL;
         }
 
-        if (sprites[i]->x >= test_screen->width || sprites[i]->y >= test_screen->height) {
+        if (SPRITES[i]->x >= test_screen->width || SPRITES[i]->y >= test_screen->height) {
             printf("Sprite number %d(\"%s\") is outside the SCREEN boundaries in coordinates (%d,%d)!\n",
-            i, sprites[i]->name, sprites[i]->x, sprites[i]->y);
+            i, SPRITES[i]->name, SPRITES[i]->x, SPRITES[i]->y);
             printf("Firstly repair the sprite, then try again!\n\n");
             return NULL;
         }
 
-        switch (sprites[i]->type) {
+        switch (SPRITES[i]->type) {
             case TEXT:
                 if (!check_display_text(i, test_screen)) {
                     allSpritesValid = false;
@@ -201,10 +201,10 @@ ScreenType *check_sprites(ScreenType screen) {
 bool check_display_text(const int curr_sprite_num, ScreenType *test_screen) {
     bool ans = true;
 
-    int y = sprites[curr_sprite_num]->y;
-    int x = sprites[curr_sprite_num]->x;
+    int y = SPRITES[curr_sprite_num]->y;
+    int x = SPRITES[curr_sprite_num]->x;
 
-    for (int j = 0; sprites[curr_sprite_num]->details.text.content[j] != '\0'; j++) {
+    for (int j = 0; SPRITES[curr_sprite_num]->details.text.content[j] != '\0'; j++) {
         if (x >= test_screen->width) {
             print_screen_collision_warning(curr_sprite_num, x, y);
             ans = false;
@@ -227,12 +227,12 @@ bool check_display_text(const int curr_sprite_num, ScreenType *test_screen) {
 bool check_display_line(const int curr_sprite_num, ScreenType *test_screen) {
     bool ans = true;
 
-    int y = sprites[curr_sprite_num]->y;
-    int x = sprites[curr_sprite_num]->x;
+    int y = SPRITES[curr_sprite_num]->y;
+    int x = SPRITES[curr_sprite_num]->x;
 
-    switch (sprites[curr_sprite_num]->details.line.direction) {
+    switch (SPRITES[curr_sprite_num]->details.line.direction) {
         case RIGHT:
-            for (int j = 0; j < sprites[curr_sprite_num]->details.line.length; j++) {
+            for (int j = 0; j < SPRITES[curr_sprite_num]->details.line.length; j++) {
                 //checking for the SCREEN border collision
                 if (x >= test_screen->width) {
                     print_screen_collision_warning(curr_sprite_num, x, y);
@@ -252,7 +252,7 @@ bool check_display_line(const int curr_sprite_num, ScreenType *test_screen) {
             }
             break;
         case DOWN:
-            for (int j = 0; j < sprites[curr_sprite_num]->details.line.length; j++) {
+            for (int j = 0; j < SPRITES[curr_sprite_num]->details.line.length; j++) {
                 //checking for the SCREEN border collision
                 if (y >= test_screen->height) {
                     print_screen_collision_warning(curr_sprite_num, x, y);
@@ -279,9 +279,9 @@ bool check_display_line(const int curr_sprite_num, ScreenType *test_screen) {
 bool check_display_slot(const int curr_sprite_num, ScreenType *test_screen) {
     bool ans = true;
 
-    char *slot_str = slot_to_string(&sprites[curr_sprite_num]->details.slot, test_screen->bg_char);
-    int x = sprites[curr_sprite_num]->x;
-    int y = sprites[curr_sprite_num]->y;
+    char *slot_str = slot_to_string(&SPRITES[curr_sprite_num]->details.slot, test_screen->bg_char);
+    int x = SPRITES[curr_sprite_num]->x;
+    int y = SPRITES[curr_sprite_num]->y;
 
     for (int i = 0; slot_str[i] != '\0'; i++) {
         if (x >= test_screen->width) {
@@ -312,10 +312,10 @@ bool check_display_slot(const int curr_sprite_num, ScreenType *test_screen) {
 
 void print_screen_collision_warning(const int curr_sprite_num, const int x, const int y) {
     printf(" -Sprite number %d(\"%s\") extends beyond the SCREEN boundaries in coordinates (%d,%d)!\n",
-    curr_sprite_num, sprites[curr_sprite_num]->name, x, y);
+    curr_sprite_num, SPRITES[curr_sprite_num]->name, x, y);
 }
 
 void print_sprites_collision_warning(const int curr_sprite_num, const int second_sprite_num, const int x, const int y) {
     printf(" -Sprite number %d(\"%s\") collides with sprite number %d(\"%s\") in coordinates (%d,%d)!\n",
-                        curr_sprite_num, sprites[curr_sprite_num]->name, second_sprite_num, sprites[second_sprite_num]->name, x, y);
+                        curr_sprite_num, SPRITES[curr_sprite_num]->name, second_sprite_num, SPRITES[second_sprite_num]->name, x, y);
 }

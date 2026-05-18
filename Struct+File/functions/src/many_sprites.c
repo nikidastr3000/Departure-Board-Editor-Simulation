@@ -12,20 +12,20 @@
 
 void add_sprite_to_sprites(const Sprite *sprite) {
     int size = 0;
-    for (; sprites[size] != NULL; size++) {}
+    for (; SPRITES[size] != NULL; size++) {}
 
-    Sprite **temp = realloc(sprites, size + 2);     //sprites[size+1] is the last sprite
+    Sprite **temp = realloc(SPRITES, size + 2);     //sprites[size+1] is the last sprite
     if (temp == NULL) {
         perror("realloc");
         FILE *fp = fopen("last_usage.txt", "w");
-        output_sprites(sprites, fp);
+        output_sprites(SPRITES, fp);
         fclose(fp);
         exit(1);
     }
-    sprites = temp;
+    SPRITES = temp;
 
-    sprites[size] = (Sprite *)sprite;
-    sprites[size + 1] = NULL;
+    SPRITES[size] = (Sprite *)sprite;
+    SPRITES[size + 1] = NULL;
 }
 
 void edit_sprite_in_sprites(const Sprite *model_sprite) {

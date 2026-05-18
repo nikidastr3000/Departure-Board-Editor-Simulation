@@ -9,9 +9,9 @@
 int MAX_STRING_SIZE;
 int SLOT_MARGIN;
 ScreenType SCREEN;
-StateEnum state;
-char *opened_file_name;
-Sprite **sprites;
+StateEnum STATE;
+char *OPENED_FILE_NAME;
+Sprite **SPRITES;
 
 static void init() {
     FILE *config_file = fopen("config.txt", "r");
@@ -37,26 +37,26 @@ static void init() {
 
     fill_screen(&SCREEN);
 
-    state = IN_START_MODE;
+    STATE = IN_START_MODE;
 
-    opened_file_name = malloc(MAX_STRING_SIZE);
+    OPENED_FILE_NAME = malloc(MAX_STRING_SIZE);
 
-    sprites = NULL;
+    SPRITES = NULL;
 
     fclose(config_file);
 }
 
 void compute_state() {
-    switch (state) {
+    switch (STATE) {
         case OPENING_FILE:
             puts("Opening file...");
 
             printf("Enter File Name: ");
-            scanf(" %s", opened_file_name);
+            scanf(" %s", OPENED_FILE_NAME);
 
-            sprites = input_sprites_from_file(opened_file_name);
+            SPRITES = input_sprites_from_file(OPENED_FILE_NAME);
 
-            state = IN_EDIT_MODE;
+            STATE = IN_EDIT_MODE;
 
             break;
 
@@ -64,24 +64,24 @@ void compute_state() {
             puts("Creating file...");
 
             printf("Enter File Name: ");
-            scanf(" %s", opened_file_name);
+            scanf(" %s", OPENED_FILE_NAME);
 
-            FILE *file = fopen(opened_file_name, "w");
+            FILE *file = fopen(OPENED_FILE_NAME, "w");
             if (file == NULL) {
                 puts("Couldn't create file!");
                 exit(1);
             }
             fclose(file);
 
-            state = IN_EDIT_MODE;
+            STATE = IN_EDIT_MODE;
 
             break;
 
         case EXITING_PROGRAM:
             puts("Exiting program...");
 
-            if (sprites != NULL) {
-                free_sprites_array(sprites);
+            if (SPRITES != NULL) {
+                free_sprites_array(SPRITES);
             }
 
             break;
@@ -89,23 +89,23 @@ void compute_state() {
         case SAVING_FILE:
             puts("Saving file...");
 
-            FILE *fp = fopen(opened_file_name, "w");
-            output_sprites(sprites, fp);
+            FILE *fp = fopen(OPENED_FILE_NAME, "w");
+            output_sprites(SPRITES, fp);
             fclose(fp);
 
-            state = IN_EDIT_MODE;
+            STATE = IN_EDIT_MODE;
 
             break;
 
         case CLOSING_FILE:
             puts("Closing file...");
 
-            free_sprites_array(sprites);
-            sprites = NULL;
+            free_sprites_array(SPRITES);
+            SPRITES = NULL;
 
-            opened_file_name[0] = '\0';
+            OPENED_FILE_NAME[0] = '\0';
 
-            state = IN_START_MODE;
+            STATE = IN_START_MODE;
 
             break;
 
@@ -114,7 +114,7 @@ void compute_state() {
 
             display_sprites();
 
-            state = IN_EDIT_MODE;
+            STATE = IN_EDIT_MODE;
 
             break;
 
@@ -126,7 +126,7 @@ void compute_state() {
 
             add_sprite_to_sprites(sprite);
 
-            state = IN_EDIT_MODE;
+            STATE = IN_EDIT_MODE;
 
             break;
 
@@ -154,13 +154,13 @@ void compute_state() {
 static void main_loop() {
     bool flag = true;
     while (flag) {
-        switch (state) {
+        switch (STATE) {
             case IN_START_MODE:
                 puts("(1) Open File");
                 puts("(2) Create new File");
                 puts("(3) Exit");
                 printf("Enter your choice: ");
-                scanf(" %d", &state);
+                scanf(" %d", &STATE);
                 break;
 
             case IN_EDIT_MODE:
@@ -174,7 +174,7 @@ static void main_loop() {
                 puts("(8) Edit Sprite");
                 puts("(9) Delete Sprite");
                 printf("Enter your choice: ");
-                scanf(" %d", &state);
+                scanf(" %d", &STATE);
                 break;
 
             case EXITING_PROGRAM:

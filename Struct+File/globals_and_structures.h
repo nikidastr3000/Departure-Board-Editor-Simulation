@@ -101,10 +101,10 @@ extern int SLOT_MARGIN;
 
 extern ScreenType SCREEN;
 
-extern StateEnum state;
+extern StateEnum STATE;
 
-extern char *opened_file_name;
+extern char *OPENED_FILE_NAME;
 
-extern Sprite **sprites;
+extern Sprite **SPRITES;
 
 #endif //STRUCT_FILE_DB_STRUCTURES_H

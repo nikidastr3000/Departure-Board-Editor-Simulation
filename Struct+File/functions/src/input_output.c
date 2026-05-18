@@ -265,12 +265,34 @@ void input_time_from_file(TimeType *time, FILE *source) {
 }
 
 
+void output_sprites_to_stdout(Sprite **sprites) {
+    for (int i = 0; sprites[i] != NULL; i++) {
+        //1. Title (1,1)
+        printf("%d. %s (%d,%d) ", i + 1, sprites[i]->name, sprites[i]->x, sprites[i]->y);
+
+        //details
+        switch (sprites[i]->type) {
+            case TEXT:
+                printf("TEXT: %s", sprites[i]->details.text.content);
+                break;
+            case LINE:
+                printf("LINE: %c %d %s", sprites[i]->details.line.character, sprites[i]->details.line.length, sprites[i]->details.line.direction == RIGHT ? "RIGHT" : "DOWN");
+                break;
+            case SLOT:
+                printf("SLOT: %d %d %s %d:%02d %d:%02d", sprites[i]->details.slot.trip_number, sprites[i]->details.slot.station_number, sprites[i]->details.slot.status == WAITING ? "WAITING" : sprites[i]->details.slot.status == IN_PROGRESS ? "IN_PROGRESS" : "CANCELLED", sprites[i]->details.slot.scheduled_departure.hours, sprites[i]->details.slot.scheduled_departure.minutes, sprites[i]->details.slot.estimated_departure.hours, sprites[i]->details.slot.estimated_departure.minutes);
+                break;
+        }
+
+        printf("\n");
+    }
+}
+
+
 void output_sprites(Sprite **sprites, FILE *dest) {
     for (int i = 0; sprites[i] != NULL; i++) {
         output_sprite(sprites[i], dest);
     }
 }
-
 void output_sprite(const Sprite *sprite, FILE *dest) {
     fseek(dest, 0, SEEK_END);
     fprintf(dest, "\n");
