@@ -9,10 +9,10 @@ int main(void) {
 
     start();
 
-    Sprite *sprite = malloc(sizeof(Sprite));
+    /*Sprite *sprite = malloc(sizeof(Sprite));
     printf("MAX_STRING_SIZE: %d\n", MAX_STRING_SIZE);
     input_sprite_from_stdin(sprite);
-    output_sprite(sprite, stdout);
+    output_sprite(sprite, stdout);*/
 
     return 0;
 }

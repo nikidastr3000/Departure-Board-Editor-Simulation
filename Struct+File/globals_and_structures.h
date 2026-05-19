@@ -74,8 +74,11 @@ typedef struct{
 
 //////////////////////////// MENU ////////////////////////////
 typedef enum {
-    IN_START_MODE=-1,
-    IN_EDIT_MODE=0,
+    //menus
+    NO_OPENED_FILE = -10,       //the first menu that the user sees
+    FILE_OPENED,                //the second menu(after the user opened or created a file
+    IN_FILE_MENU,               //the submenu(in second menu) to open/create/save or close a file
+    IN_EDIT_MENU,               //the submenu(in second menu) to add/edit/delete a sprite
 
     //possible from both start and edit mode
     OPENING_FILE = 1,

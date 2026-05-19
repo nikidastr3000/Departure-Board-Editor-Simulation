@@ -37,16 +37,23 @@ static void init() {
 
     fill_screen(&SCREEN);
 
-    STATE = IN_START_MODE;
+    STATE = NO_OPENED_FILE;
 
     OPENED_FILE_NAME = malloc(MAX_STRING_SIZE);
+    OPENED_FILE_NAME[0] = '\0';
 
     SPRITES = NULL;
 
     fclose(config_file);
+
+    /*//
+    OPENED_FILE_NAME = "sprites.txt";
+    SPRITES = input_sprites_from_file(OPENED_FILE_NAME);
+    STATE = FILE_OPENED;
+    //*/
 }
 
-void compute_state() {
+bool compute_state() {
     printf("\n");
     switch (STATE) {
         case OPENING_FILE:
@@ -58,11 +65,13 @@ void compute_state() {
 
             SPRITES = input_sprites_from_file(OPENED_FILE_NAME);
             if (SPRITES == NULL) {
-                STATE = IN_START_MODE;
+                STATE = NO_OPENED_FILE;
             }
             else{
-                STATE = IN_EDIT_MODE;
+                STATE = FILE_OPENED;
             }
+
+            puts("File successfully opened!");
 
             break;
 
@@ -79,8 +88,9 @@ void compute_state() {
                 exit(1);
             }
             fclose(file);
+            puts("File created!");
 
-            STATE = IN_EDIT_MODE;
+            STATE = FILE_OPENED;
 
             break;
 
@@ -91,7 +101,11 @@ void compute_state() {
                 free_sprites_array(SPRITES);
             }
 
-            break;
+            delete_screen(&SCREEN);
+
+            free(OPENED_FILE_NAME);
+
+            return false;
 
         case SAVING_FILE:
             puts("Saving file...");
@@ -100,7 +114,9 @@ void compute_state() {
             output_sprites(SPRITES, fp);
             fclose(fp);
 
-            STATE = IN_EDIT_MODE;
+            puts("File saved!");
+
+            STATE = FILE_OPENED;
 
             break;
 
@@ -112,7 +128,7 @@ void compute_state() {
 
             OPENED_FILE_NAME[0] = '\0';
 
-            STATE = IN_START_MODE;
+            STATE = NO_OPENED_FILE;
 
             break;
 
@@ -121,7 +137,7 @@ void compute_state() {
 
             display_sprites();
 
-            STATE = IN_EDIT_MODE;
+            STATE = FILE_OPENED;
 
             break;
 
@@ -130,7 +146,7 @@ void compute_state() {
 
             output_sprites_to_stdout(SPRITES);
 
-            STATE = IN_EDIT_MODE;
+            STATE = FILE_OPENED;
 
             break;
 
@@ -143,7 +159,7 @@ void compute_state() {
             clear_stdin();
             output_sprite(SPRITES[sprite_index_for_output], stdout);
 
-            STATE = IN_EDIT_MODE;
+            STATE = FILE_OPENED;
 
             break;
 
@@ -155,7 +171,7 @@ void compute_state() {
 
             add_sprite_to_sprites(sprite);
 
-            STATE = IN_EDIT_MODE;
+            STATE = FILE_OPENED;
 
             break;
 
@@ -169,7 +185,7 @@ void compute_state() {
 
             edit_sprite_in_sprites(sprite_index_for_edit);
 
-            STATE = IN_EDIT_MODE;
+            STATE = FILE_OPENED;
 
 
             break;
@@ -177,33 +193,53 @@ void compute_state() {
         case DELETING_SPRITE:
             puts("Deleting sprite...");
 
+            int sprite_index_for_delete;
+            printf("Enter sprite index: ");
+            scanf(" %d", &sprite_index_for_delete);
+            clear_stdin();
+
+            printf("Are you sure? (y/n): ");
+            char answer;
+            scanf(" %c", &answer);
+            clear_stdin();
+            if (answer == 'y') {
+                delete_sprite_from_sprites(sprite_index_for_delete);
+            }
+
+            STATE = FILE_OPENED;
             break;
 
         default:
             puts("Invalid state!");
-            STATE = IN_START_MODE;
+            STATE = NO_OPENED_FILE;
     }
 
     printf("\n");
+    return true;
 }
 
 static void main_loop() {
     while (true) {
         switch (STATE) {
-            case IN_START_MODE:
-                puts("(1) Open File");
-                puts("(2) Create new File");
+            case NO_OPENED_FILE:
+                puts("(1) Open Board");
+                puts("(2) Create new Board");
                 puts("(3) Exit");
                 printf("Enter your choice: ");
 
                 break;
 
-            case IN_EDIT_MODE:
-                puts("(1) Open File");
-                puts("(2) Create new File");
+            case FILE_OPENED:
+                puts("F");
                 puts("(3) Exit");
-                puts("(4) Save File");
-                puts("(5) Close File");
+
+                puts("(1) Open Board");
+                puts("(2) Create new Board");
+
+                puts("(4) Save Changes");
+                puts("(5) Close Board");
+
+                //EDIT
                 puts("(6) Display");
                 puts("(7) Output all sprites info");
                 puts("(8) Output sprite info");

@@ -7,9 +7,13 @@
 
 #include "globals_and_structures.h"
 
-void add_sprite_to_sprites(const Sprite *sprite);
+bool add_sprite_to_sprites(const Sprite *sprite);
 
-void edit_sprite_in_sprites(int sprite_index);
+bool edit_sprite_in_sprites(int sprite_index);
+
+bool delete_sprite_from_sprites(int sprite_index);
+
+int sprites_len(Sprite **sprites);
 
 
 
