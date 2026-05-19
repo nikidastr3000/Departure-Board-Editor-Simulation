@@ -12,6 +12,12 @@
 #include "one_sprite.h"
 
 bool display_sprites() {
+    if (SPRITES == NULL || SPRITES[0] == NULL) {
+        printf("No sprites to display!\n");
+        output_screen(&SCREEN, false);
+        return false;
+    }
+
     ScreenType *test_screen = check_sprites(SCREEN);
     if (test_screen == NULL) {
         return false;
@@ -147,13 +153,18 @@ void delete_screen(ScreenType *screen) {
 
 
 ScreenType *check_sprites(ScreenType screen) {
-    printf("Checking sprites...\n");
-
     ScreenType *test_screen = malloc(sizeof(ScreenType));
     test_screen->height = screen.height;
     test_screen->width = screen.width;
     test_screen->bg_char = screen.bg_char;
     fill_screen(test_screen);
+
+    if (SPRITES == NULL || SPRITES[0] == NULL) {
+        printf("No sprites to check!\n");
+        return test_screen;
+    }
+
+    printf("Checking sprites...\n");
 
     bool allSpritesValid = true;
 

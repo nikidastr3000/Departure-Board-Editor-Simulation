@@ -113,13 +113,17 @@ void input_time_from_stdin(TimeType *time) {
 }
 
 
-Sprite **input_sprites_from_file(const char *filename) {
+Sprite **input_sprites_from_file(const char *filename, bool *is_file_successfully_opened) {
     printf("Inputting Sprites from %s\n", filename);
 
     FILE *source = fopen(filename, "r");
     if (source == NULL) {
         puts("Couldn't open file!");
+        *is_file_successfully_opened = false;
         return NULL;
+    }
+    else {
+        *is_file_successfully_opened = true;
     }
 
     int array_capacity = 4;
@@ -153,6 +157,11 @@ Sprite **input_sprites_from_file(const char *filename) {
         sprites[array_size] = malloc(sizeof(Sprite));
         input_sprite_from_file(sprites[array_size], source);
         array_size++;
+    }
+
+    if (array_size == 0) {
+        puts("No sprites found!");
+        return NULL;
     }
 
     sprites[array_size] = NULL;
@@ -266,6 +275,11 @@ void input_time_from_file(TimeType *time, FILE *source) {
 
 
 void output_sprites_to_stdout(Sprite **sprites) {
+    if (sprites == NULL || sprites[0] == NULL) {
+        puts("Sprites array is empty!");
+        return;
+    }
+
     for (int i = 0; sprites[i] != NULL; i++) {
         //1. Title (1,1)
         printf("%d. %s (%d,%d) ", i, sprites[i]->name, sprites[i]->x, sprites[i]->y);

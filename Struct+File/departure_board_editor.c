@@ -53,6 +53,7 @@ static void init() {
     //*/
 }
 
+
 bool compute_state() {
     printf("\n");
     switch (STATE) {
@@ -63,12 +64,13 @@ bool compute_state() {
             scanf(" %s", OPENED_FILE_NAME);
             clear_stdin();
 
-            SPRITES = input_sprites_from_file(OPENED_FILE_NAME);
-            if (SPRITES == NULL) {
-                STATE = NO_OPENED_FILE;
+            bool is_file_successfully_opened = false;
+            SPRITES = input_sprites_from_file(OPENED_FILE_NAME, &is_file_successfully_opened);
+            if (is_file_successfully_opened) {
+                STATE = FILE_OPENED;
             }
             else{
-                STATE = FILE_OPENED;
+                STATE = NO_OPENED_FILE;
             }
 
             puts("File successfully opened!");
@@ -88,6 +90,7 @@ bool compute_state() {
                 exit(1);
             }
             fclose(file);
+
             puts("File created!");
 
             STATE = FILE_OPENED;
@@ -110,9 +113,9 @@ bool compute_state() {
         case SAVING_FILE:
             puts("Saving file...");
 
-            FILE *fp = fopen(OPENED_FILE_NAME, "w");
-            output_sprites(SPRITES, fp);
-            fclose(fp);
+            FILE *fp_saving = fopen(OPENED_FILE_NAME, "w");
+            output_sprites(SPRITES, fp_saving);
+            fclose(fp_saving);
 
             puts("File saved!");
 
@@ -123,8 +126,13 @@ bool compute_state() {
         case CLOSING_FILE:
             puts("Closing file...");
 
+            FILE *fp_closure = fopen(OPENED_FILE_NAME, "w");
+            output_sprites(SPRITES, fp_closure);
+            fclose(fp_closure);
+            puts("File saved!");
+
             free_sprites_array(SPRITES);
-            SPRITES = NULL;
+            SPRITES[0] = NULL;
 
             OPENED_FILE_NAME[0] = '\0';
 

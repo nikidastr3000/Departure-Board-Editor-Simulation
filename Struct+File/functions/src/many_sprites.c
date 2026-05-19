@@ -54,6 +54,8 @@ bool delete_sprite_from_sprites(int sprite_index) {
 }
 
 int sprites_len(Sprite **sprites) {
+    if (sprites == NULL) return 0;
+
     int len = 0;
     for (; sprites[len] != NULL; len++) {}
     return len;

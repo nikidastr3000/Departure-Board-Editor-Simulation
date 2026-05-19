@@ -74,28 +74,32 @@ typedef struct{
 
 //////////////////////////// MENU ////////////////////////////
 typedef enum {
-    //menus
+    ////////MENUS
     NO_OPENED_FILE = -10,       //the first menu that the user sees
     FILE_OPENED,                //the second menu(after the user opened or created a file
     IN_FILE_MENU,               //the submenu(in second menu) to open/create/save or close a file
-    IN_EDIT_MENU,               //the submenu(in second menu) to add/edit/delete a sprite
+    IN_ACTION_MENU,             //the submenu(in second menu) to output/add/edit/delete a sprite or display/output all the sprites
 
-    //possible from both start and edit mode
+    ////////FILES
+
+    //reachable from both 'NO_OPENED_FILE' and 'IN_FILE_MENU'
     OPENING_FILE = 1,
-    CREATING_FILE,
+    CREATING_FILE = 2,
     //RESTORING_PREVIOUS_SESSION,
-    EXITING_PROGRAM,
+    EXITING_PROGRAM = 3,
 
-    //possible only from edit mode
-    SAVING_FILE,
-    CLOSING_FILE,
+    //reachable only from 'IN_ACTION_MENU'
+    SAVING_FILE = 4,            //writes SPRITES to the current file
+    CLOSING_FILE = 5,           //clears 'SPRITES' and 'OPENED_FILE_NAME'
+    //also saves the file
 
-    DISPLAYING,
-    OUTPUTTING_ALL_SPRITES_INFO,
-    OUTPUTTING_SPRITE_INFO,
-    ADDING_SPRITE,
-    EDITING_SPRITE,
-    DELETING_SPRITE,
+    ////////SPRITES
+    DISPLAYING = 6,
+    OUTPUTTING_ALL_SPRITES_INFO = 7,
+    OUTPUTTING_SPRITE_INFO = 8,
+    ADDING_SPRITE = 9,
+    EDITING_SPRITE = 10,
+    DELETING_SPRITE = 11,
 } StateEnum;
 
 
