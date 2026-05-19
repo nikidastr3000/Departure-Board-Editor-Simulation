@@ -16,12 +16,17 @@ void input_time_from_stdin(TimeType *time);
 
 Sprite **input_sprites_from_file(const char *filename, bool *is_file_successfully_opened);
 //the cursor in the file has to be right before the info about the necessary Sprite
-void input_sprite_from_file(Sprite *sprite, FILE *source);
-void input_spriteType_from_file(TypeOfSprite *type, FILE *source);
-void input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *source);
-void input_direction_from_file(DirectionEnum *direction, FILE *source);
-void input_status_from_file(SlotStatus *status, FILE *source);
-void input_time_from_file(TimeType *time, FILE *source);
+bool input_sprite_from_file(Sprite *sprite, FILE *source);
+
+bool input_spriteType_from_file(TypeOfSprite *type, FILE *source);
+
+bool input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *source);
+
+bool input_direction_from_file(DirectionEnum *direction, FILE *source);
+
+bool input_status_from_file(SlotStatus *status, FILE *source);
+
+bool input_time_from_file(TimeType *time, FILE *source);
 
 //special short output for the array of sprites
 void output_sprites_to_stdout(Sprite **sprites);

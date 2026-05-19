@@ -75,16 +75,16 @@ typedef struct{
 //////////////////////////// MENU ////////////////////////////
 typedef enum {
     ////////MENUS
-    NO_OPENED_FILE = -10,       //the first menu that the user sees
-    FILE_OPENED,                //the second menu(after the user opened or created a file
-    IN_FILE_MENU,               //the submenu(in second menu) to open/create/save or close a file
-    IN_ACTION_MENU,             //the submenu(in second menu) to output/add/edit/delete a sprite or display/output all the sprites
+    NO_OPENED_FILE = -1,            //the first menu that the user sees
+    FILE_OPENED = -2,               //the second menu(after the user opened or created a file
+    IN_FILE_MENU = -3,              //the submenu(in second menu) to open/create/save or close a file
+    IN_ACTION_MENU = -4,            //the submenu(in second menu) to output/add/edit/delete a sprite or display/output all the sprites
 
     ////////FILES
 
     //reachable from both 'NO_OPENED_FILE' and 'IN_FILE_MENU'
     OPENING_FILE = 1,
-    CREATING_FILE = 2,
+    CREATING_NEW_FILE = 2,
     //RESTORING_PREVIOUS_SESSION,
     EXITING_PROGRAM = 3,
 

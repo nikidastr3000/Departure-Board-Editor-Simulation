@@ -11,7 +11,7 @@ void remove_newline(char *str);
 void clear_stdin();
 
 // moves the cursor in the file to the beginning of the field value
-void find_field_in_file(FILE *file, const char *field);
+bool find_field_in_file(FILE *file, const char *field);
 
 void skip_whitespaces(FILE *file);
 

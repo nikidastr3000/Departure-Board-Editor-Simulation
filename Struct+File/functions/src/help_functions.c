@@ -19,18 +19,18 @@ void clear_stdin() {
     while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
-void find_field_in_file(FILE *file, const char *field) {
+bool find_field_in_file(FILE *file, const char *field) {
     char field_name[MAX_STRING_SIZE];
 
     while (fscanf(file, " %99s", field_name) == 1) {
         if (strcmp(field_name, field) == 0) {
             skip_whitespaces(file);         //to skip the spaces between field name and value("Field:  ...  value")
-            return;
+            return true;
         }
     }
 
     printf("Couldn't find field \"%s\" in file!\n", field);
-    exit(1);
+    return false;
 }
 
 void skip_whitespaces(FILE * file) {

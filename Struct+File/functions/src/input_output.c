@@ -155,7 +155,14 @@ Sprite **input_sprites_from_file(const char *filename, bool *is_file_successfull
         }
 
         sprites[array_size] = malloc(sizeof(Sprite));
-        input_sprite_from_file(sprites[array_size], source);
+        if (!input_sprite_from_file(sprites[array_size], source)) {
+            puts("Failed to read sprite from file!");
+
+            if (sprites[array_size] != NULL) {
+                free_sprite(sprites[array_size]);
+            }
+            break;
+        }
         array_size++;
     }
 
@@ -164,14 +171,27 @@ Sprite **input_sprites_from_file(const char *filename, bool *is_file_successfull
         return NULL;
     }
 
+    //allocating memory for the NULL sprite
+    if (array_size >= array_capacity) {
+        array_capacity *= 2;
+        Sprite **temp = realloc(sprites, array_capacity * sizeof(Sprite *));
+        if (!temp) {
+            perror("Failed to reallocate sprites");
+            exit(1);
+        }
+        sprites = temp;
+    }
     sprites[array_size] = NULL;
     fclose(source);
-    puts("Input successfully ended!");
+    printf("%d Sprites were successfully read!", array_size);
     return sprites;
 }
 
-void input_sprite_from_file(Sprite *sprite, FILE *source) {
-    find_field_in_file(source, "Sprite_name:");
+bool input_sprite_from_file(Sprite *sprite, FILE *source) {
+    if (!find_field_in_file(source, "Sprite_name:")) {
+        sprite->name = NULL;
+        return false;
+    }
     sprite->name = malloc(sizeof(char) * MAX_STRING_SIZE);
     if (sprite->name == NULL) {
         perror("Failed to allocate memory for sprite name from file");
@@ -180,32 +200,50 @@ void input_sprite_from_file(Sprite *sprite, FILE *source) {
     fgets(sprite->name, MAX_STRING_SIZE, source);
     remove_newline(sprite->name);
 
-    find_field_in_file(source, "X_coord:");
+    if (!find_field_in_file(source, "X_coord:")) {
+        return false;
+    }
     fscanf(source, " %d\n", &sprite->x);
 
-    find_field_in_file(source, "Y_coord:");
+    if (!find_field_in_file(source, "Y_coord:")) {
+        return false;
+    }
     fscanf(source, " %d\n", &sprite->y);
 
-    input_spriteType_from_file(&sprite->type, source);
+    if (!input_spriteType_from_file(&sprite->type, source)) {
+        return false;
+    }
 
-    input_details_from_file(&sprite->details, sprite->type, source);
+    if (!input_details_from_file(&sprite->details, sprite->type, source)) {
+        return false;
+    }
+
+    return true;
 }
-void input_spriteType_from_file(TypeOfSprite *type, FILE *source) {
-    find_field_in_file(source, "Type:");
+
+bool input_spriteType_from_file(TypeOfSprite *type, FILE *source) {
+    if (!find_field_in_file(source, "Type:")) {
+        return false;
+    }
     char str_type[MAX_STRING_SIZE];
     fscanf(source, " %s", str_type);
     if (strcmp(str_type, "TEXT") == 0) *type = TEXT;
     else if (strcmp(str_type, "LINE") == 0) *type = LINE;
     else if (strcmp(str_type, "SLOT") == 0) *type = SLOT;
     else {
-        puts("Couldn't input Sprite from file. Invalid Sprite Type!");
-        exit(1);
+        puts("Invalid Sprite Type!");
     }
+
+    return true;
 }
-void input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *source) {
+
+bool input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *source) {
     switch (type) {
         case TEXT:
-            find_field_in_file(source, "Text:");
+            if (! find_field_in_file(source, "Text:")) {
+                details->text.content = NULL;
+                return false;
+            }
             details->text.content = malloc(sizeof(char) * MAX_STRING_SIZE);
             if (details->text.content == NULL) {
                 perror("Failed to allocate memory for text content from file");
@@ -215,62 +253,90 @@ void input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *sour
             remove_newline(details->text.content);
             break;
         case LINE:
-            find_field_in_file(source, "Line_char:");
+            if (!find_field_in_file(source, "Line_char:")) {
+                return false;
+            }
             details->line.character = (char)fgetc(source);
-            find_field_in_file(source, "Length:");
+            if (!find_field_in_file(source, "Length:")) {
+                return false;
+            }
             fscanf(source, " %d", &details->line.length);
 
-            input_direction_from_file(&details->line.direction, source);
+            if (!input_direction_from_file(&details->line.direction, source)) {
+                return false;
+            }
             break;
         case SLOT:
-            find_field_in_file(source, "Trip_number:");
+            if (!find_field_in_file(source, "Trip_number:")) {
+                return false;
+            }
             fscanf(source, " %d", &details->slot.trip_number);
-            find_field_in_file(source, "Station_number:");
+            if (!find_field_in_file(source, "Station_number:")) {
+                return false;
+            }
             fscanf(source, " %d", &details->slot.station_number);
 
-            input_status_from_file(&details->slot.status, source);
+            if (!input_status_from_file(&details->slot.status, source)) {
+                return false;
+            }
 
-            find_field_in_file(source, "Scheduled_departure(hh:mm):");
+            if (!find_field_in_file(source, "Scheduled_departure(hh:mm):")) {
+                return false;
+            }
             input_time_from_file(&details->slot.scheduled_departure, source);
-            find_field_in_file(source, "Estimated_departure(hh:mm):");
+            if (!find_field_in_file(source, "Estimated_departure(hh:mm):")) {
+                return false;
+            }
             input_time_from_file(&details->slot.estimated_departure, source);
 
     }
+
+    return true;
 }
-void input_direction_from_file(DirectionEnum *direction, FILE *source) {
-    find_field_in_file(source, "Direction:");
+
+bool input_direction_from_file(DirectionEnum *direction, FILE *source) {
+    if (!find_field_in_file(source, "Direction:")) {
+        return false;
+    }
     char str_dir[MAX_STRING_SIZE];
     fscanf(source, " %s", str_dir);
     if (strcmp(str_dir, "RIGHT") == 0) *direction = RIGHT;
     else if (strcmp(str_dir, "DOWN") == 0) *direction = DOWN;
     else {
-        puts("Couldn't input Sprite from file. Invalid Direction!");
-        exit(1);
+        puts("Invalid Direction!");
     }
+
+    return true;
 }
-void input_status_from_file(SlotStatus *status, FILE *source) {
-    find_field_in_file(source, "Status:");
+
+bool input_status_from_file(SlotStatus *status, FILE *source) {
+    if (!find_field_in_file(source, "Status:")) {
+        return false;
+    }
     char str_status[MAX_STRING_SIZE];
     fscanf(source, " %s", str_status);
     if (strcmp(str_status, "WAITING") == 0) *status = WAITING;
     else if (strcmp(str_status, "IN_PROGRESS") == 0) *status = IN_PROGRESS;
     else if (strcmp(str_status, "CANCELLED") == 0) *status = CANCELLED;
     else {
-        puts("Couldn't input Sprite from file. Invalid Status!");
+        puts("Invalid Status!");
     }
+
+    return true;
 }
-void input_time_from_file(TimeType *time, FILE *source) {
+
+bool input_time_from_file(TimeType *time, FILE *source) {
     char str_time[6];           //6th char for '\0'
     if (fscanf(source, " %5s", str_time) != 1) {
         puts("Failed to read time from file!");
-        exit(1);
     }
 
     if (sscanf(str_time, "%d:%d", &time->hours, &time->minutes) != 2 ||
         time->hours > 23 || time->minutes > 59) {
         puts("Invalid time!");
-        exit(1);
     }
+
+    return true;
 }
 
 
@@ -535,13 +601,17 @@ void output_sprite_binary(const Sprite *sprite, FILE *dest) {
 void free_sprite(Sprite *sprite) {
     if (sprite == NULL) return;
 
-    free(sprite->name);
-    sprite->name = NULL;
+    if (sprite->name != NULL) {
+        free(sprite->name);
+        sprite->name = NULL;
+    }
 
-    if (sprite->type == TEXT) {
+
+    if (sprite->type == TEXT && sprite->details.text.content != NULL) {
         free(sprite->details.text.content);
         sprite->details.text.content = NULL;
     }
+
     free(sprite);
 }
 void free_sprites_array(Sprite **sprites) {
