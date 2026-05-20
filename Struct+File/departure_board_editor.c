@@ -46,11 +46,11 @@ static void init() {
 
     fclose(config_file);
 
-    /*//
+    //
     OPENED_FILE_NAME = "sprites.txt";
-    SPRITES = input_sprites_from_file(OPENED_FILE_NAME);
+    SPRITES = input_sprites_from_file(OPENED_FILE_NAME, NULL);
     STATE = FILE_OPENED;
-    //*/
+    //
 }
 
 void save_file() {
@@ -128,7 +128,7 @@ static void main_loop() {
                 puts("(7) Output all sprites info");
                 puts("(8) Output sprite info");
                 puts("(9) Add Sprite");
-                puts("(10) Edit Sprite");
+                puts("(10) Edit Sprite");       //also menu
                 puts("(11) Delete Sprite");
 
                 puts("(-2) return back");
@@ -142,6 +142,20 @@ static void main_loop() {
                     STATE = IN_ACTION_MENU;
                     continue;
                 }
+
+                break;
+
+            case EDITING_SPRITE:
+                puts("Editing sprite...");
+
+                int sprite_index_for_edit;
+                printf("Enter sprite index: ");
+                scanf(" %d", &sprite_index_for_edit);
+                clear_stdin();
+
+                edit_sprite_in_sprites(sprite_index_for_edit);  //!!!! to make !!!!
+
+                STATE = IN_ACTION_MENU;
 
                 break;
 
@@ -276,20 +290,6 @@ static void main_loop() {
                 input_sprite_from_stdin(sprite);
 
                 add_sprite_to_sprites(sprite);
-
-                STATE = IN_ACTION_MENU;
-
-                break;
-
-            case EDITING_SPRITE:
-                puts("Editing sprite...");
-
-                int sprite_index_for_edit;
-                printf("Enter sprite index: ");
-                scanf(" %d", &sprite_index_for_edit);
-                clear_stdin();
-
-        edit_sprite_in_sprites(sprite_index_for_edit);  //!!!! to make !!!!
 
                 STATE = IN_ACTION_MENU;
 

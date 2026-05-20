@@ -72,23 +72,23 @@ void input_details_from_stdin(DetailsType *details, const TypeOfSprite type) {
             break;
 
         case SLOT:
-            printf("Trip_number: ");
-            scanf(" %d", &details->slot.trip_number);
-            clear_stdin();
-
             printf("Station_number: ");
             scanf(" %d", &details->slot.station_number);
-            clear_stdin();
-
-            puts("Statuses: (1)WAITING / (2)IN_PROGRESS / (3)CANCELLED");
-            printf("Status: ");
-            scanf(" %d", &details->slot.status);
             clear_stdin();
 
             printf("Scheduled_departure(hh:mm): ");
             input_time_from_stdin(&details->slot.scheduled_departure);
             printf("Estimated_departure(hh:mm): ");
             input_time_from_stdin(&details->slot.estimated_departure);
+
+            printf("Trip_number: ");
+            scanf(" %d", &details->slot.trip_number);
+            clear_stdin();
+
+            puts("Statuses: (1)WAITING / (2)IN_PROGRESS / (3)CANCELLED");
+            printf("Status: ");
+            scanf(" %d", &details->slot.status);
+            clear_stdin();
 
             break;
 

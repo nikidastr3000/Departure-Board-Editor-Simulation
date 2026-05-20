@@ -33,12 +33,14 @@ typedef struct{
 } TimeType;
 
 typedef struct Slot {
-    int trip_number;            // >= 0
     int station_number;         // >= 0
 
-    SlotStatus status;
     TimeType scheduled_departure;
     TimeType estimated_departure;
+
+    int trip_number;            // >= 0
+
+    SlotStatus status;
 } ScheduleSlot;
 
 //////////////////////////// DetailsType ////////////////////////////
@@ -79,6 +81,7 @@ typedef enum {
     FILE_OPENED = -2,               //the second menu(after the user opened or created a file
     IN_FILE_MENU = -3,              //the submenu(in second menu) to open/create/save or close a file
     IN_ACTION_MENU = -4,            //the submenu(in second menu) to output/add/edit/delete a sprite or display/output all the sprites
+    IN_EDIT_MENU = -5,
 
     ////////FILES
 
