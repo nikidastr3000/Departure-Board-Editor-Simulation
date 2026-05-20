@@ -5,6 +5,7 @@
 #include "departure_board_editor.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 int MAX_STRING_SIZE;
 int SLOT_MARGIN;
@@ -47,8 +48,9 @@ static void init() {
     fclose(config_file);
 
     //
-    OPENED_FILE_NAME = "sprites.txt";
-    SPRITES = input_sprites_from_file(OPENED_FILE_NAME, NULL);
+    strcpy(OPENED_FILE_NAME, "sprites.txt");
+    bool is_file_successfully_opened = false;
+    SPRITES = input_sprites_from_file(OPENED_FILE_NAME, &is_file_successfully_opened);
     STATE = FILE_OPENED;
     //
 }
@@ -64,7 +66,8 @@ void save_file() {
 }
 
 static void main_loop() {
-    while (true) {
+    bool exit_program = false;
+    while (exit_program == false) {
         puts("");
         switch (STATE) {
             //MENUS
@@ -208,9 +211,9 @@ static void main_loop() {
                 break;
 
             case EXITING_PROGRAM:
-                if (SPRITES != NULL && SPRITES[0] != NULL && OPENED_FILE_NAME[0] != '\0') {
+                /*if (SPRITES != NULL && SPRITES[0] != NULL && OPENED_FILE_NAME[0] != '\0') {
                     save_file();
-                }
+                }*/
 
                 puts("Exiting program...");
 
@@ -221,6 +224,8 @@ static void main_loop() {
                 delete_screen(&SCREEN);
 
                 free(OPENED_FILE_NAME);
+
+                exit_program = true;
 
                 break;
 
@@ -318,12 +323,6 @@ static void main_loop() {
                 puts("Invalid state!");
                 STATE = NO_OPENED_FILE;
         }
-
-        if (STATE == EXITING_PROGRAM) {
-            break;
-        }
-
-        //compute_state();
     }
 }
 

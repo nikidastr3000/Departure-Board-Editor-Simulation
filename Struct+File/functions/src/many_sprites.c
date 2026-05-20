@@ -40,6 +40,7 @@ bool edit_sprite_in_sprites(const int sprite_index) {
     }
 
     Sprite *sprite = SPRITES[sprite_index];
+    output_sprite(sprite, stdout);
 
     puts("(1) Change the hole sprite");
     puts("(2) Edit name");
@@ -71,6 +72,7 @@ bool edit_sprite_in_sprites(const int sprite_index) {
     int ans;
     printf("Enter your choice: ");
     scanf("%d", &ans);
+    clear_stdin();
 
     bool return_back = false;
     switch (ans) {
@@ -147,6 +149,7 @@ bool edit_sprite_in_sprites(const int sprite_index) {
             break;
         case -4:
             return_back = true;
+            break;
         default:
             puts("Invalid choice!");
     }

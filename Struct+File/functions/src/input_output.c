@@ -267,18 +267,10 @@ bool input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *sour
             }
             break;
         case SLOT:
-            if (!find_field_in_file(source, "Trip_number:")) {
-                return false;
-            }
-            fscanf(source, " %d", &details->slot.trip_number);
             if (!find_field_in_file(source, "Station_number:")) {
                 return false;
             }
             fscanf(source, " %d", &details->slot.station_number);
-
-            if (!input_status_from_file(&details->slot.status, source)) {
-                return false;
-            }
 
             if (!find_field_in_file(source, "Scheduled_departure(hh:mm):")) {
                 return false;
@@ -289,6 +281,15 @@ bool input_details_from_file(DetailsType *details, TypeOfSprite type, FILE *sour
             }
             input_time_from_file(&details->slot.estimated_departure, source);
 
+            if (!find_field_in_file(source, "Trip_number:")) {
+                return false;
+            }
+            fscanf(source, " %d", &details->slot.trip_number);
+
+            if (!input_status_from_file(&details->slot.status, source)) {
+                return false;
+            }
+            break;
     }
 
     return true;
@@ -415,11 +416,11 @@ void output_details(const DetailsType *details, const TypeOfSprite type, FILE *d
             output_direction(&details->line.direction, dest);
             break;
         case SLOT:
-            fprintf(dest, "Trip_number: %d\n", details->slot.trip_number);
             fprintf(dest, "Station_number: %d\n", details->slot.station_number);
-            output_status(&details->slot.status, dest);
             fprintf(dest, "Scheduled_departure(hh:mm): "); output_time(&details->slot.scheduled_departure, dest); fprintf(dest, "\n");
             fprintf(dest, "Estimated_departure(hh:mm): "); output_time(&details->slot.estimated_departure, dest); fprintf(dest, "\n");
+            fprintf(dest, "Trip_number: %d\n", details->slot.trip_number);
+            output_status(&details->slot.status, dest);
             break;
     }
 }
