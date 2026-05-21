@@ -79,19 +79,20 @@ typedef enum {
     ////////MENUS
     NO_OPENED_FILE = -1,            //the first menu that the user sees
     FILE_OPENED = -2,               //the second menu(after the user opened or created a file
-    IN_FILE_MENU = -3,              //the submenu(in second menu) to open/create/save or close a file
-    IN_ACTION_MENU = -4,            //the submenu(in second menu) to output/add/edit/delete a sprite or display/output all the sprites
-    IN_EDIT_MENU = -5,
+    FILE_MENU = -3,              //the submenu(in second menu) to open/create/save or close a file
+    ACTION_MENU = -4,            //the submenu(in second menu) to output/add/edit/delete a sprite or display/output all the sprites
+    EDIT_MENU = -5,
+} MenuEnum;
 
+typedef enum {
     ////////FILES
-
-    //reachable from both 'NO_OPENED_FILE' and 'IN_FILE_MENU'
+    //reachable from both 'NO_OPENED_FILE' and 'FILE_MENU'
     OPENING_FILE = 1,
     CREATING_NEW_FILE = 2,
     //RESTORING_PREVIOUS_SESSION,
     EXITING_PROGRAM = 3,
 
-    //reachable only from 'IN_ACTION_MENU'
+    //reachable only from 'ACTION_MENU'
     SAVING_FILE = 4,            //writes SPRITES to the current file
     CLOSING_FILE = 5,           //clears 'SPRITES' and 'OPENED_FILE_NAME'
     //also saves the file
@@ -103,7 +104,12 @@ typedef enum {
     ADDING_SPRITE = 9,
     EDITING_SPRITE = 10,
     DELETING_SPRITE = 11,
-} StateEnum;
+} ActionEnum;
+
+typedef struct {
+    MenuEnum current_menu;
+    ActionEnum current_action;
+} StateType;
 
 
 //GLOBALS
@@ -113,7 +119,7 @@ extern int SLOT_MARGIN;
 
 extern ScreenType SCREEN;
 
-extern StateEnum STATE;
+extern StateType STATE;
 
 extern char *OPENED_FILE_NAME;
 

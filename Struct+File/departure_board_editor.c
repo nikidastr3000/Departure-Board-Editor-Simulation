@@ -10,7 +10,7 @@
 int MAX_STRING_SIZE;
 int SLOT_MARGIN;
 ScreenType SCREEN;
-StateEnum STATE;
+StateType STATE;
 char *OPENED_FILE_NAME;
 Sprite **SPRITES;
 
@@ -105,7 +105,7 @@ static void main_loop() {
 
                 break;
 
-            case IN_FILE_MENU:
+            case FILE_MENU:
                 puts("(1) Open Board");
                 puts("(2) Create new Board");
 
@@ -120,13 +120,13 @@ static void main_loop() {
 
                 if (STATE != 1 && STATE != 2 && STATE != 4 && STATE != 5 && STATE != -2) {
                     puts("Invalid choice!");
-                    STATE = IN_FILE_MENU;
+                    STATE = FILE_MENU;
                     continue;
                 }
 
                 break;
 
-            case IN_ACTION_MENU:
+            case ACTION_MENU:
                 puts("(6) Display");
                 puts("(7) Output all sprites info");
                 puts("(8) Output sprite info");
@@ -142,7 +142,7 @@ static void main_loop() {
 
                 if (STATE != -2 && (STATE < 6 || STATE > 11)) {
                     puts("Invalid choice!");
-                    STATE = IN_ACTION_MENU;
+                    STATE = ACTION_MENU;
                     continue;
                 }
 
@@ -160,7 +160,7 @@ static void main_loop() {
 
                 edit_sprite_in_sprites(sprite_index_for_edit);  //!!!! to make !!!!
 
-                STATE = IN_ACTION_MENU;
+                STATE = ACTION_MENU;
 
                 break;
 
@@ -235,7 +235,7 @@ static void main_loop() {
 
                 save_file();
 
-                STATE = IN_FILE_MENU;
+                STATE = FILE_MENU;
 
                 break;
 
@@ -264,7 +264,7 @@ static void main_loop() {
 
                 display_sprites(test_mode);
 
-                STATE = IN_ACTION_MENU;
+                STATE = ACTION_MENU;
 
                 break;
 
@@ -273,7 +273,7 @@ static void main_loop() {
 
                 output_sprites_to_stdout(SPRITES);
 
-                STATE = IN_ACTION_MENU;
+                STATE = ACTION_MENU;
 
                 break;
 
@@ -292,7 +292,7 @@ static void main_loop() {
                     output_sprite(SPRITES[sprite_index_for_output], stdout);
                 }
 
-                STATE = IN_ACTION_MENU;
+                STATE = ACTION_MENU;
 
                 break;
 
@@ -304,7 +304,7 @@ static void main_loop() {
 
                 add_sprite_to_sprites(sprite);
 
-                STATE = IN_ACTION_MENU;
+                STATE = ACTION_MENU;
 
                 break;
 
@@ -326,7 +326,7 @@ static void main_loop() {
                     delete_sprite_from_sprites(sprite_index_for_delete);
                 }
 
-                STATE = IN_ACTION_MENU;
+                STATE = ACTION_MENU;
                 break;
 
             default:
