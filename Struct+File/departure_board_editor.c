@@ -151,6 +151,8 @@ static void main_loop() {
             case EDITING_SPRITE:
                 puts("Editing sprite...");
 
+                output_sprites_to_stdout(SPRITES);
+
                 int sprite_index_for_edit;
                 printf("Enter sprite index: ");
                 scanf(" %d", &sprite_index_for_edit);
@@ -254,7 +256,13 @@ static void main_loop() {
             case DISPLAYING:
                 puts("Displaying...");
 
-                display_sprites();
+                char ans;
+                printf("Test mode? (y/n): ");
+                scanf(" %c", &ans);
+
+                bool test_mode = (ans == 'y');
+
+                display_sprites(test_mode);
 
                 STATE = IN_ACTION_MENU;
 
@@ -302,6 +310,8 @@ static void main_loop() {
 
             case DELETING_SPRITE:
                 puts("Deleting sprite...");
+
+                output_sprites_to_stdout(SPRITES);
 
                 int sprite_index_for_delete;
                 printf("Enter sprite index: ");

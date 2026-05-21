@@ -7,7 +7,7 @@
 
 #include "globals_and_structures.h"
 
-bool display_sprites();
+bool display_sprites(bool test_mode);
 void display_sprite(const Sprite *sprite);
 //void display_details(const Sprite *sprite, ScreenType SCREEN);      //unnecessary, because display_sprite directly calls display_details
 void display_text(const Sprite *sprite);
@@ -20,6 +20,8 @@ void fill_screen(ScreenType *screen);
 //test_mode - outputting SCREEN with coords system
 void output_screen(const ScreenType *screen, bool test_mode);
 void delete_screen(ScreenType *screen);
+void clear_screen(ScreenType *screen);
+
 
 
 ScreenType *check_sprites(ScreenType screen);

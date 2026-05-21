@@ -11,7 +11,7 @@
 #include "help_functions.h"
 #include "one_sprite.h"
 
-bool display_sprites() {
+bool display_sprites(const bool test_mode) {
     if (SPRITES == NULL || SPRITES[0] == NULL) {
         printf("No sprites to display!\n");
         output_screen(&SCREEN, false);
@@ -25,11 +25,12 @@ bool display_sprites() {
     delete_screen(test_screen);
     free(test_screen);
 
+    clear_screen(&SCREEN);
     for (int i = 0; SPRITES[i] != NULL; i++) {
         display_sprite(SPRITES[i]);
     }
 
-    output_screen(&SCREEN, false);
+    output_screen(&SCREEN, test_mode);
     return true;
 }
 
@@ -150,6 +151,15 @@ void delete_screen(ScreenType *screen) {
     }
     free(screen->buffer);
 }
+
+void clear_screen(ScreenType *screen) {
+    for (int i = 0; i < screen->height; i++) {
+        for (int j = 0; j < screen->width; j++) {
+            screen->buffer[i][j] = screen->bg_char;
+        }
+    }
+}
+
 
 
 ScreenType *check_sprites(ScreenType screen) {
