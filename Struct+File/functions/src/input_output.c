@@ -183,7 +183,7 @@ Sprite **input_sprites_from_file(const char *filename, bool *is_file_successfull
     }
     sprites[array_size] = NULL;
     fclose(source);
-    printf("%d Sprites were successfully read!", array_size);
+    printf("%d Sprites were successfully read!\n", array_size);
     return sprites;
 }
 

@@ -85,12 +85,14 @@ typedef enum {
 } MenuEnum;
 
 typedef enum {
+    NO_ACTION = 0,
+
     ////////FILES
     //reachable from both 'NO_OPENED_FILE' and 'FILE_MENU'
     OPENING_FILE = 1,
     CREATING_NEW_FILE = 2,
     //RESTORING_PREVIOUS_SESSION,
-    EXITING_PROGRAM = 3,
+    EXITING_PROGRAM = 3,    //no automatic saving
 
     //reachable only from 'ACTION_MENU'
     SAVING_FILE = 4,            //writes SPRITES to the current file
@@ -102,7 +104,7 @@ typedef enum {
     OUTPUTTING_ALL_SPRITES_INFO = 7,
     OUTPUTTING_SPRITE_INFO = 8,
     ADDING_SPRITE = 9,
-    EDITING_SPRITE = 10,
+    //EDITING_SPRITE = 10,
     DELETING_SPRITE = 11,
 } ActionEnum;
 
@@ -124,5 +126,7 @@ extern StateType STATE;
 extern char *OPENED_FILE_NAME;
 
 extern Sprite **SPRITES;
+
+extern int edit_sprite_number;
 
 #endif //STRUCT_FILE_DB_STRUCTURES_H

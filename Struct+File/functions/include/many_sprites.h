@@ -9,7 +9,10 @@
 
 bool add_sprite_to_sprites(const Sprite *sprite);
 
-bool edit_sprite_in_sprites(int sprite_index);
+bool edit_sprite_in_sprites();
+bool edit_text();
+bool edit_line();
+bool edit_slot();
 
 bool delete_sprite_from_sprites(int sprite_index);
 
