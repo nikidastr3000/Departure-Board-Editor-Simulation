@@ -78,7 +78,7 @@ bool validate_sprite(const Sprite *sprite) {
 
 //SLOTS_MARGIN*' ' + field_1 + SLOTS_MARGIN*' ' + ' ' + SLOTS_MARGIN*' ' + field_2 + ...
 char *slot_to_string(const ScheduleSlot *slot, char bg_char) {
-    char *str = malloc(sizeof(char) * 301);     //300 - max size
+    char *str = malloc(sizeof(char) * 300 + SLOT_MARGIN * 10);     //300 - max size
     int index = 0;
 
     for (int i = 0; i < SLOT_MARGIN; i++) {

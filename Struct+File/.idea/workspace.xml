@@ -29,30 +29,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bac54355-1425-4063-ab6a-1c95157c139b" name="Changes" comment="Task_1">
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/.idea/Lab_10.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_10/main.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/.idea/Lab_9.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../CSA(computer systems architecture)/Lab_9/main.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Labs/Lab_11/.idea/Lab_11.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Labs/Lab_11/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Labs/Lab_11/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Labs/Lab_11/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../Labs/Lab_11/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_structures.h" beforeDir="false" afterPath="$PROJECT_DIR$/db_structures.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/departure_board_editor.c" beforeDir="false" afterPath="$PROJECT_DIR$/departure_board_editor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/src/display.c" beforeDir="false" afterPath="$PROJECT_DIR$/functions/src/display.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/src/many_sprites.c" beforeDir="false" afterPath="$PROJECT_DIR$/functions/src/many_sprites.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/src/one_sprite.c" beforeDir="false" afterPath="$PROJECT_DIR$/functions/src/one_sprite.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Labs/Test/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../Labs/Test/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,25 +46,25 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="13" />
+    <option name="cachedIndexableFilesCount" value="24" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "nikidastr3000"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;nikidastr3000&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/nikidastr3000/Ukr_Uni.git",
-    "accountId": "daa860ca-fa46-43eb-b76e-6b2e63dcda25"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/nikidastr3000/Ukr_Uni.git&quot;,
+    &quot;accountId&quot;: &quot;daa860ca-fa46-43eb-b76e-6b2e63dcda25&quot;
   }
-}]]></component>
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="X2JKT07i" />
   </component>
@@ -89,9 +72,9 @@
     <commands />
     <urls />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="3DDerOVRLTaTpXEhlk9ZW6dsEx0" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -105,6 +88,7 @@
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
@@ -113,7 +97,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "/home/niki/Progr/Ukr_Uni/Programming/Individual_Tasks/Struct+File",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -124,9 +108,9 @@
   }
 }]]></component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -140,6 +124,7 @@
       <workItem from="1777410852754" duration="291000" />
       <workItem from="1777744192847" duration="1436000" />
       <workItem from="1777821268468" duration="2871000" />
+      <workItem from="1779448581157" duration="6382000" />
     </task>
     <task id="LOCAL-00001" summary="Individual Task: Update code">
       <option name="closed" value="true" />

@@ -35,7 +35,9 @@ static void init() {
     fscanf(config_file, " %d", &SCREEN.height);
 
     find_field_in_file(config_file, "SCREEN_BG_CHAR:");
-    fscanf(config_file, " %d", &SCREEN.bg_char);
+    int bg_char;
+    fscanf(config_file, " %d", &bg_char);
+    SCREEN.bg_char = (char)bg_char;
 
     fill_screen(&SCREEN);
 

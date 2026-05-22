@@ -300,10 +300,10 @@ bool delete_sprite_from_sprites(int sprite_index) {
         return false;
     }
 
+    free_sprite(SPRITES[sprite_index]);
     for (int i = sprite_index; i < len - 1; i++) {
         SPRITES[i] = SPRITES[i + 1];
     }
-    free_sprite(SPRITES[len - 1]);
     SPRITES[len - 1] = NULL;
 
     printf("Sprite deleted!\n");
