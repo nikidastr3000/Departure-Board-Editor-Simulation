@@ -35,6 +35,14 @@ bool add_sprite_to_sprites(const Sprite *sprite) {
 bool edit_sprite_in_sprites() {
     bool success = false;
 
+    puts("OUTPUTING ALL SPRITES: (press enter to continue)");
+    clear_screen(&SCREEN);
+    for (int i = 0; SPRITES[i] != NULL; i++) {
+        display_sprite(SPRITES[i]);
+    }
+
+    output_screen(&SCREEN, true);
+
     puts("==========Edit Menu==========");
     printf("Editing sprite number: %d", edit_sprite_number);
 
@@ -253,12 +261,10 @@ bool edit_slot() {
             clear_stdin();
             break;
         case 7:
-            printf("New scheduled departure time(hh:mm): ");
-            input_time_from_stdin(&sprite->details.slot.scheduled_departure);
+            input_time_from_stdin(&sprite->details.slot.scheduled_departure, "New scheduled departure time(hh:mm): ");
             break;
         case 8:
-            printf("New estimated departure time(hh:mm): ");
-            input_time_from_stdin(&sprite->details.slot.estimated_departure);
+            input_time_from_stdin(&sprite->details.slot.estimated_departure, "New estimated departure time(hh:mm): ");
             break;
         case 9:
             printf("New trip number: ");

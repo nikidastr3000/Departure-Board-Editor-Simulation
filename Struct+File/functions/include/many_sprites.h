@@ -6,6 +6,7 @@
 #define STRUCT_FILE_MANY_SPRITES_H
 
 #include "globals_and_structures.h"
+#include <stdbool.h>
 
 bool add_sprite_to_sprites(const Sprite *sprite);
 

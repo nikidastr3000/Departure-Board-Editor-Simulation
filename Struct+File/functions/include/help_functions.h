@@ -4,7 +4,10 @@
 
 #ifndef STRUCT_FILE_HELP_FUNCTIONS_H
 #define STRUCT_FILE_HELP_FUNCTIONS_H
+
 #include <stdio.h>
+#include <stdbool.h>
+
 
 void remove_newline(char *str);
 

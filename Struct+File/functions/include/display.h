@@ -6,6 +6,7 @@
 #define STRUCT_FILE_DISPLAY_H
 
 #include "globals_and_structures.h"
+#include <stdbool.h>
 
 bool display_sprites(bool test_mode);
 void display_sprite(const Sprite *sprite);

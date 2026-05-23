@@ -189,7 +189,8 @@ ScreenType *check_sprites(ScreenType screen) {
         }
 
         if (SPRITES[i]->x >= test_screen->width || SPRITES[i]->y >= test_screen->height) {
-            printf("Sprite number %d(\"%s\") is outside the SCREEN boundaries in coordinates (%d,%d)!\n",
+            printf("Sprite number %d(\"%s\") is invalid!\n", i, SPRITES[i]->name);
+            printf("Sprite number %d(\"%s\") is outside the SCREE  N boundaries in coordinates (%d,%d)!\n",
             i, SPRITES[i]->name, SPRITES[i]->x, SPRITES[i]->y);
             printf("Firstly repair the sprite, then try again!\n\n");
             delete_screen(test_screen);

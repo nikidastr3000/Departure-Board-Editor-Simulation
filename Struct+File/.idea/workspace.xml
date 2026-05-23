@@ -28,11 +28,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bac54355-1425-4063-ab6a-1c95157c139b" name="Changes" comment="Task_1">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="bac54355-1425-4063-ab6a-1c95157c139b" name="Changes" comment="Fix memory allocation size in `slot_to_string`, improve sprite deletion logic, update screen initialization with proper typecasting, and add screen cleanup on validation failure. Update project VCS mappings and workspace settings.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/departure_board_editor.c" beforeDir="false" afterPath="$PROJECT_DIR$/departure_board_editor.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/include/display.h" beforeDir="false" afterPath="$PROJECT_DIR$/functions/include/display.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/include/help_functions.h" beforeDir="false" afterPath="$PROJECT_DIR$/functions/include/help_functions.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/include/input_output.h" beforeDir="false" afterPath="$PROJECT_DIR$/functions/include/input_output.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/include/many_sprites.h" beforeDir="false" afterPath="$PROJECT_DIR$/functions/include/many_sprites.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/include/one_sprite.h" beforeDir="false" afterPath="$PROJECT_DIR$/functions/include/one_sprite.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions/src/display.c" beforeDir="false" afterPath="$PROJECT_DIR$/functions/src/display.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/src/input_output.c" beforeDir="false" afterPath="$PROJECT_DIR$/functions/src/input_output.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions/src/many_sprites.c" beforeDir="false" afterPath="$PROJECT_DIR$/functions/src/many_sprites.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions/src/one_sprite.c" beforeDir="false" afterPath="$PROJECT_DIR$/functions/src/one_sprite.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Labs/Test/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../Labs/Test/main.c" afterDir="false" />
@@ -46,7 +50,7 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="24" />
+    <option name="cachedIndexableFilesCount" value="25" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
@@ -85,6 +89,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "CMake Application.Unnamed.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -108,9 +113,14 @@
   }
 }]]></component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Unnamed" type="CMakeRunConfiguration" factoryName="Application" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Struct_File" TARGET_NAME="Struct_File" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Struct_File" RUN_TARGET_NAME="Struct_File">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -124,7 +134,8 @@
       <workItem from="1777410852754" duration="291000" />
       <workItem from="1777744192847" duration="1436000" />
       <workItem from="1777821268468" duration="2871000" />
-      <workItem from="1779448581157" duration="6382000" />
+      <workItem from="1779448581157" duration="6395000" />
+      <workItem from="1779522668218" duration="14622000" />
     </task>
     <task id="LOCAL-00001" summary="Individual Task: Update code">
       <option name="closed" value="true" />
@@ -134,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777744246805</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fix memory allocation size in `slot_to_string`, improve sprite deletion logic, update screen initialization with proper typecasting, and add screen cleanup on validation failure. Update project VCS mappings and workspace settings.">
+      <option name="closed" value="true" />
+      <created>1779489515786</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1779489515786</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +193,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Individual Task: Update code" />
     <MESSAGE value="Task_1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Task_1" />
+    <MESSAGE value="Fix memory allocation size in `slot_to_string`, improve sprite deletion logic, update screen initialization with proper typecasting, and add screen cleanup on validation failure. Update project VCS mappings and workspace settings." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix memory allocation size in `slot_to_string`, improve sprite deletion logic, update screen initialization with proper typecasting, and add screen cleanup on validation failure. Update project VCS mappings and workspace settings." />
   </component>
 </project>

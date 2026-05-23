@@ -76,10 +76,8 @@ void input_details_from_stdin(DetailsType *details, const TypeOfSprite type) {
             scanf(" %d", &details->slot.station_number);
             clear_stdin();
 
-            printf("Scheduled_departure(hh:mm): ");
-            input_time_from_stdin(&details->slot.scheduled_departure);
-            printf("Estimated_departure(hh:mm): ");
-            input_time_from_stdin(&details->slot.estimated_departure);
+            input_time_from_stdin(&details->slot.scheduled_departure, "Scheduled_departure(hh:mm): ");
+            input_time_from_stdin(&details->slot.estimated_departure, "Estimated_departure(hh:mm): ");
 
             printf("Trip_number: ");
             scanf(" %d", &details->slot.trip_number);
@@ -97,18 +95,21 @@ void input_details_from_stdin(DetailsType *details, const TypeOfSprite type) {
             exit(1);
     }
 }
-void input_time_from_stdin(TimeType *time) {
+void input_time_from_stdin(TimeType *time, char *output) {
+    printf("%s", output);
+
     char str_time[6];                   //6th char for '\0'
     if (scanf(" %5s", str_time) != 1) {
+        clear_stdin();
         puts("Invalid input format!");
-        exit(1);
+        input_time_from_stdin(time, output);
     }
     clear_stdin();
 
     if (sscanf(str_time, "%d:%d", &time->hours, &time->minutes) != 2 || 
-        time->hours > 23 || time->minutes > 59) {
+        time->hours > 23 || time->minutes > 59 || time->hours < 0 || time->minutes < 0) {
         puts("Invalid time!");
-        exit(1);
+        input_time_from_stdin(time, output);
     }
 }
 

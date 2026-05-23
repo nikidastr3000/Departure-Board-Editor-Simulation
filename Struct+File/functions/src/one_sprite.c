@@ -32,42 +32,66 @@ int measure_sprite_length(Sprite *sprite) {
 }
 
 bool validate_sprite(const Sprite *sprite) {
-    if (sprite == NULL || sprite->name == NULL || sprite->name[0] == '\0')
+    if (sprite == NULL) {
+        puts("Sprite is NULL!");
         return false;
+    }
 
-    if (sprite->x < 0 || sprite->y < 0)
+    if (sprite->name == NULL || sprite->name[0] == '\0') {
+        puts("Sprite name is NULL or empty!");
         return false;
+    }
+
+
+    if (sprite->x < 0 || sprite->y < 0) {
+        puts("Sprite coordinates are negative!");
+        return false;
+    }
 
     switch (sprite->type) {
         case TEXT:
-            if (sprite->details.text.content == NULL || sprite->details.text.content[0] == '\0')
+            if (sprite->details.text.content == NULL || sprite->details.text.content[0] == '\0') {
+                puts("Content of text sprite is NULL or empty!");
                 return false;
+            }
             break;
 
         case LINE:
-            if (sprite->details.line.character <= 32 || sprite->details.line.character >= 127)
+            if (sprite->details.line.character <= 32 || sprite->details.line.character >= 127) {
+                puts("Invalid character for Line!");
                 return false;
-            if (sprite->details.line.length < 0)
+            }
+            if (sprite->details.line.length < 0) {
+                puts("Line length is negative!");
                 return false;
-            if (sprite->details.line.direction != RIGHT && sprite->details.line.direction != DOWN)
+            }
+            if (sprite->details.line.direction != RIGHT && sprite->details.line.direction != DOWN) {
+                puts("Invalid direction for Line!");
                 return false;
+            }
             break;
 
         case SLOT:
-            if (sprite->details.slot.trip_number < 0)
+            if (sprite->details.slot.trip_number < 0) {
+                puts("Invalid trip number!");
                 return false;
-            if (sprite->details.slot.station_number < 0)
+            }
+            if (sprite->details.slot.station_number < 0) {
+                puts("Invalid station number!");
                 return false;
-            if (sprite->details.slot.status != WAITING && sprite->details.slot.status != IN_PROGRESS && sprite->details.slot.status != CANCELLED)
+            }
+            if (sprite->details.slot.status != WAITING && sprite->details.slot.status != IN_PROGRESS && sprite->details.slot.status != CANCELLED) {
+                puts("Invalid status!");
                 return false;
-            if (sprite->details.slot.scheduled_departure.hours < 0 || sprite->details.slot.scheduled_departure.minutes < 0)
+            }
+            if (sprite->details.slot.scheduled_departure.hours < 0 || sprite->details.slot.scheduled_departure.minutes < 0 || sprite->details.slot.scheduled_departure.hours > 23 || sprite->details.slot.scheduled_departure.minutes > 59) {
+                puts("Invalid scheduled departure time!");
                 return false;
-            if (sprite->details.slot.estimated_departure.hours < 0 || sprite->details.slot.estimated_departure.minutes < 0)
+            }
+            if (sprite->details.slot.estimated_departure.hours < 0 || sprite->details.slot.estimated_departure.minutes < 0 || sprite->details.slot.estimated_departure.hours > 23 || sprite->details.slot.estimated_departure.minutes > 59) {
+                puts("Invalid estimated departure time!");
                 return false;
-            if (sprite->details.slot.scheduled_departure.hours > 23 || sprite->details.slot.scheduled_departure.minutes > 59)
-                return false;
-            if (sprite->details.slot.estimated_departure.hours > 23 || sprite->details.slot.estimated_departure.minutes > 59)
-                return false;
+            }
             break;
         default:
             return false;

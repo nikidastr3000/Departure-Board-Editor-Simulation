@@ -6,13 +6,15 @@
 #define STRUCT_FILE_INPUT_OUTPUT_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "globals_and_structures.h"
 
 //work with stdin
 void input_sprite_from_stdin(Sprite *sprite);
 void input_details_from_stdin(DetailsType *details, TypeOfSprite type);
-void input_time_from_stdin(TimeType *time);
+
+void input_time_from_stdin(TimeType *time, char *output);
 
 Sprite **input_sprites_from_file(const char *filename, bool *is_file_successfully_opened);
 //the cursor in the file has to be right before the info about the necessary Sprite
