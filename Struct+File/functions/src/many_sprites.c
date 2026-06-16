@@ -35,7 +35,6 @@ bool add_sprite_to_sprites(const Sprite *sprite) {
 bool edit_sprite_in_sprites() {
     bool success = false;
 
-    puts("OUTPUTING ALL SPRITES: (press enter to continue)");
     clear_screen(&SCREEN);
     for (int i = 0; SPRITES[i] != NULL; i++) {
         display_sprite(SPRITES[i]);
